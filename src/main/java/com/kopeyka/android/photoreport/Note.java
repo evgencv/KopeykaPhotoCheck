@@ -1,9 +1,12 @@
 package com.kopeyka.android.photoreport;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +18,7 @@ public class Note {
     private String mAudioFilename;
     private Date mDate;
     private Photo mPhoto;
-    private Photo[] mPhotoArray;
+    private ArrayList<Photo>  mPhotoArray = new ArrayList<Photo>();
     private boolean mComplete;
 
     private static final String JSON_ID = "id";
@@ -25,6 +28,7 @@ public class Note {
     private static final String JSON_COMPLETE = "complete";
     private static final String JSON_DATE = "date";
     private static final String JSON_PHOTO = "photo";
+    private static final String JSON_PHOTO_ARR = "photo_array";
 
     public Note() {
         mId = UUID.randomUUID();
@@ -45,6 +49,14 @@ public class Note {
         }
         if (mPhoto != null) {
             json.put(JSON_PHOTO, mPhoto.toJSON());
+        }
+
+        if (mPhotoArray != null) {
+            JSONArray jsonArr = new JSONArray();
+            for (int i=0;i<jsonArr.length();i++) {
+                jsonArr.put(mPhotoArray.get(i).toJSON());
+            }
+           json.put(JSON_PHOTO_ARR, jsonArr);
         }
 
         mComplete = json.getBoolean(JSON_COMPLETE);
@@ -69,14 +81,14 @@ public class Note {
         }
 
         if (mPhotoArray != null ){
-            JSONArray json_photo = new JSONArray();
-            for (int i = 0; i < mPhotoArray.length;i++) {
-                json_photo.put(mPhotoArray[i].toJSON());
+            JSONArray jsonArr = new JSONArray();
+            for (int i = 0; i < mPhotoArray.size();i++) {
+                jsonArr.put(mPhotoArray.get(i).toJSON());
             }
-            json.put(JSON_PHOTO, json_photo);
+            json.put(JSON_PHOTO_ARR, jsonArr);
         }
 
-
+        Log.d("To_String", json.toString());
         return json;
     }
 
@@ -128,8 +140,15 @@ public class Note {
         return mPhoto;
     }
 
+    public ArrayList<Photo> getPhotoArray() {
+        return mPhotoArray;
+    }
+
+
+
     public void setPhoto(Photo photo) {
         mPhoto = photo;
-        mPhotoArray =
+        mPhotoArray.add(photo);
+
     }
 }

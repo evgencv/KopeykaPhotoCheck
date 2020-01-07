@@ -1,4 +1,4 @@
-package com.donnemartin.android.notes.notes;
+package com.kopeyka.android.photoreport;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

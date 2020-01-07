@@ -1,4 +1,7 @@
+![alt text](http://donnemartin.com/wp-content/uploads/2015/02/notes_cover.jpeg)
 
+notes
+============
 
 Android note taking app, still early in its development.  Supports text notes, checkboxes, audio, photos, and (soon) videos.
 

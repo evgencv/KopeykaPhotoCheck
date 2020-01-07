@@ -1,4 +1,4 @@
-package com.donnemartin.android.notes.notes;
+package com.kopeyka.android.photoreport;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

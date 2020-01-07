@@ -27,5 +27,9 @@
     <string name="delete_note">Delete</string>
     <string name="notes_deleted">Note(s) Deleted</string>
     <string name="capture">Capture</string>
+    <string name="icon">icon</string>
+    <string name="iconcamera">iconCamera</string>
+    <string name="iconcameras">iconCameras</string>
+    <string name="iconphoto">iconPhoto</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.donnemartin.android.notes.notes;
+package com.kopeyka.android.photoreport;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -32,8 +32,6 @@ public class NoteFragment extends Fragment {
     private EditText mContentField;
     private Button mDateButton;
     private CheckBox mCompleteCheckBox;
-    private Button mRecordButton;
-    private Button mPlayButton;
     private AudioPlayer mAudioPlayer;
     private AudioRecorder mAudioRecorder;
     private ImageButton mPhotoButton;
@@ -68,25 +66,25 @@ public class NoteFragment extends Fragment {
         return fragment;
     }
 
-    private void setPlayAudioButtonText() {
-        mPlayButton.setText(getResources()
-            .getString(R.string.note_play));
-    }
-
-    private void setStopAudioButtonText() {
-        mPlayButton.setText(getResources()
-            .getString(R.string.note_stop));
-    }
-
-    private void setStartRecordingButtonText() {
-        mRecordButton.setText(getResources()
-            .getString(R.string.note_record));
-    }
-
-    private void setStopRecordingButtonText() {
-        mRecordButton.setText(getResources()
-            .getString(R.string.note_stop));
-    }
+//    private void setPlayAudioButtonText() {
+//        mPlayButton.setText(getResources()
+//            .getString(R.string.note_play));
+//    }
+//
+//    private void setStopAudioButtonText() {
+//        mPlayButton.setText(getResources()
+//            .getString(R.string.note_stop));
+//    }
+//
+//    private void setStartRecordingButtonText() {
+//        mRecordButton.setText(getResources()
+//            .getString(R.string.note_record));
+//    }
+//
+//    private void setStopRecordingButtonText() {
+//        mRecordButton.setText(getResources()
+//            .getString(R.string.note_stop));
+//    }
 
     private void setFormattedDateButton(FragmentActivity activity) {
         if (activity != null) {
@@ -222,42 +220,42 @@ public class NoteFragment extends Fragment {
                     }
                 });
 
-        mRecordButton = (Button)view.findViewById(R.id.note_record);
-        mRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PackageManager pm = getActivity().getPackageManager();
+//        mRecordButton = (Button)view.findViewById(R.id.note_record);
+//        mRecordButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PackageManager pm = getActivity().getPackageManager();
+//
+//                if (pm.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
+//                    if (mAudioRecorder.isRecording()) {
+//                        mAudioRecorder.stopRecording();
+//                        setStartRecordingButtonText();
+//                    } else {
+//                        mAudioRecorder.startRecording();
+//                        setStopRecordingButtonText();
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(),
+//                                   getResources()
+//                                       .getString(R.string.error_no_mic),
+//                                   Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
 
-                if (pm.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
-                    if (mAudioRecorder.isRecording()) {
-                        mAudioRecorder.stopRecording();
-                        setStartRecordingButtonText();
-                    } else {
-                        mAudioRecorder.startRecording();
-                        setStopRecordingButtonText();
-                    }
-                } else {
-                    Toast.makeText(getActivity(),
-                                   getResources()
-                                       .getString(R.string.error_no_mic),
-                                   Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        mPlayButton = (Button)view.findViewById(R.id.note_play_pause);
-        mPlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAudioPlayer.isPlaying()) {
-                    mAudioPlayer.stop();
-                    setPlayAudioButtonText();
-                } else {
-                    mAudioPlayer.play(AudioPlayer.PLAY_FROM_START);
-                    setStopAudioButtonText();
-                }
-            }
-        });
+//        mPlayButton = (Button)view.findViewById(R.id.note_play_pause);
+//        mPlayButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mAudioPlayer.isPlaying()) {
+//                    mAudioPlayer.stop();
+//                    setPlayAudioButtonText();
+//                } else {
+//                    mAudioPlayer.play(AudioPlayer.PLAY_FROM_START);
+//                    setStopAudioButtonText();
+//                }
+//            }
+//        });
 
         mPhotoButton = (ImageButton)view.findViewById(R.id.note_imageButton);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -390,13 +388,13 @@ public class NoteFragment extends Fragment {
         Photo photo = mNote.getPhoto();
         BitmapDrawable bitmapDrawable = null;
 
-        if (photo != null) {
-            String path = getActivity()
-                .getFileStreamPath(photo.getFileName()).getAbsolutePath();
-            bitmapDrawable = PictureUtils.getScaledDrawable(getActivity(),
-                                                            path);
-        }
+//        if (photo != null) {
+////            String path = getActivity()
+////                .getFileStreamPath(photo.getFileName()).getAbsolutePath();
+////            bitmapDrawable = PictureUtils.getScaledDrawable(getActivity(),
+////                                                            path);
+//        }
 
-        mPhotoView.setImageDrawable(bitmapDrawable);
+//        mPhotoView.setImageDrawable(bitmapDrawable);
     }
 }

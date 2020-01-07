@@ -1,4 +1,4 @@
-package com.donnemartin.android.notes.notes;
+package com.kopeyka.android.photoreport;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class ImageFragment extends DialogFragment {
 
     public static final String EXTRA_IMAGE_PATH =
-        "com.donnemartin.android.notes.path";
+        "com.android.notes.path";
 
     public static ImageFragment newInstance(String imagePath) {
         Bundle args = new Bundle();

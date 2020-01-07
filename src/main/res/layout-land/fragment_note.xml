@@ -8,12 +8,13 @@
         android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/note_title_hint" />
+        android:hint="@string/note_title_hint"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/note_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:inputType="textMultiLine"
         android:gravity="top"
@@ -35,28 +36,17 @@
             android:id="@+id/note_imageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="centerInside"
             android:background="@android:color/darker_gray"
-            android:cropToPadding="true" />
+            android:contentDescription="@string/iconphoto"
+            android:cropToPadding="true"
+            android:scaleType="centerInside" />
 
         <ImageButton
             android:id="@+id/note_imageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/iconcameras"
             android:src="@android:drawable/ic_menu_camera" />
-
-        <Button
-            android:id="@+id/note_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/note_record" />
-
-        <Button
-            android:id="@+id/note_play_pause"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/note_play" />
 
     </LinearLayout>
 

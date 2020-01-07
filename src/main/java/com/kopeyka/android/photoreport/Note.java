@@ -1,5 +1,6 @@
-package com.donnemartin.android.notes.notes;
+package com.kopeyka.android.photoreport;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ public class Note {
     private String mAudioFilename;
     private Date mDate;
     private Photo mPhoto;
+    private Photo[] mPhotoArray;
     private boolean mComplete;
 
     private static final String JSON_ID = "id";
@@ -41,8 +43,8 @@ public class Note {
         if (json.has(JSON_AUDIO_FILENAME)) {
             mAudioFilename = json.getString(JSON_AUDIO_FILENAME);
         }
-        if (json.has(JSON_PHOTO)) {
-            mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
+        if (mPhoto != null) {
+            json.put(JSON_PHOTO, mPhoto.toJSON());
         }
 
         mComplete = json.getBoolean(JSON_COMPLETE);
@@ -65,6 +67,16 @@ public class Note {
         if (mPhoto != null) {
             json.put(JSON_PHOTO, mPhoto.toJSON());
         }
+
+        if (mPhotoArray != null ){
+            JSONArray json_photo = new JSONArray();
+            for (int i = 0; i < mPhotoArray.length;i++) {
+                json_photo.put(mPhotoArray[i].toJSON());
+            }
+            json.put(JSON_PHOTO, json_photo);
+        }
+
+
         return json;
     }
 
@@ -118,5 +130,6 @@ public class Note {
 
     public void setPhoto(Photo photo) {
         mPhoto = photo;
+        mPhotoArray =
     }
 }

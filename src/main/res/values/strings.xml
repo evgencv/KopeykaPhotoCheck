@@ -31,5 +31,7 @@
     <string name="iconcamera">iconCamera</string>
     <string name="iconcameras">iconCameras</string>
     <string name="iconphoto">iconPhoto</string>
+    <string name="space1"> </string>
+    <string name="space2"> </string>
 
 </resources>

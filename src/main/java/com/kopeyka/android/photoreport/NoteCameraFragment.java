@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,11 +22,13 @@ public class NoteCameraFragment extends Fragment {
 
     private static final String TAG = "NoteCameraFragment";
     public static final String EXTRA_PHOTO_FILENAME =
-        "com.donnemartin.android.notes.photo_filename";
+        "com..android.notes.photo_filename";
 
     private Camera mCamera;
     private SurfaceView mSurfaceview;
     private View mProgressContainer;
+    private ImageButton mPhotoButton;
+
 
     private Camera.ShutterCallback mShutterCallback =
         new Camera.ShutterCallback() {
@@ -84,15 +87,27 @@ public class NoteCameraFragment extends Fragment {
                                      parent,
                                      false);
 
-        Button takePictureButton = (Button)view
-            .findViewById(R.id.note_camera_takePictureButton);
-        takePictureButton.setOnClickListener(new View.OnClickListener() {
+//        Button takePictureButton = (Button)view
+//            .findViewById(R.id.note_camera_takePictureButton);
+//        takePictureButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                if (mCamera != null) {
+//                    mCamera.takePicture(mShutterCallback, null, mJpegCallBack);
+//                }
+//            }
+//        });
+
+        mPhotoButton = (ImageButton) view.findViewById(R.id.note_imageButton2);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 if (mCamera != null) {
                     mCamera.takePicture(mShutterCallback, null, mJpegCallBack);
                 }
             }
         });
+
+
 
         mSurfaceview = (SurfaceView)view
             .findViewById(R.id.note_camera_surfaceView);

@@ -205,43 +205,7 @@ public class NoteFragment extends Fragment{
                     }
                 });
 
-//        mRecordButton = (Button)view.findViewById(R.id.note_record);
-//        mRecordButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PackageManager pm = getActivity().getPackageManager();
 //
-//                if (pm.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
-//                    if (mAudioRecorder.isRecording()) {
-//                        mAudioRecorder.stopRecording();
-//                        setStartRecordingButtonText();
-//                    } else {
-//                        mAudioRecorder.startRecording();
-//                        setStopRecordingButtonText();
-//                    }
-//                } else {
-//                    Toast.makeText(getActivity(),
-//                                   getResources()
-//                                       .getString(R.string.error_no_mic),
-//                                   Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-
-//        mPlayButton = (Button)view.findViewById(R.id.note_play_pause);
-//        mPlayButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mAudioPlayer.isPlaying()) {
-//                    mAudioPlayer.stop();
-//                    setPlayAudioButtonText();
-//                } else {
-//                    mAudioPlayer.play(AudioPlayer.PLAY_FROM_START);
-//                    setStopAudioButtonText();
-//                }
-//            }
-//        });
-
         mPhotoButton = (ImageButton) view.findViewById(R.id.note_imageButton);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override

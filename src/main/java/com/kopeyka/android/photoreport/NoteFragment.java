@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.os.Build;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -35,19 +37,16 @@ public class NoteFragment extends Fragment{
     private EditText mContentField;
     private Button mDateButton;
     private CheckBox mCompleteCheckBox;
-    private AudioPlayer mAudioPlayer;
-    private AudioRecorder mAudioRecorder;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private ArrayList<Photo> mPhotos;
-    private PhotoAdapter adapter;
+    private TextView mTitle;
+    private TextView mDate;
 
 
 
-    private static StringBuffer mAudioFileName;
     private static final String TAG = "NoteFragment";
     public static final String EXTRA_NOTE_ID = "com.android.notes.note_id";
-    private static final String AUDIO_POS_INDEX = "audio_pos_index";
     private static final String DIALOG_IMAGE = "image";
     private static final String DIALOG_DATE = "date";
     private static final int REQUEST_DATE = 0;
@@ -100,18 +99,7 @@ public class NoteFragment extends Fragment{
         // Ask the user to supply a file name instead
         // This is also written to external storage, whereas
         // the notes are saved to internal memory
-        mAudioFileName = new StringBuffer(Environment
-                .getExternalStorageDirectory().getAbsolutePath());
-        mAudioFileName
-                .append("/")
-                .append(mNote.getTitle())
-                .append(".3gp");
 
-        String audioFileName = mAudioFileName.toString();
-        mNote.setAudioFilename(audioFileName);
-
-        mAudioPlayer = new AudioPlayer(mNote.getAudioFilename());
-        mAudioRecorder = new AudioRecorder(mNote.getAudioFilename());
 
         // Inflated view is added to parent in the activity code
         View view = inflater.inflate(R.layout.fragment_note,
@@ -125,6 +113,19 @@ public class NoteFragment extends Fragment{
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
+
+        mTitle = (TextView) view.findViewById(R.id.noteTitleText);
+        mTitle.setText(mNote.getTitle());
+
+
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
+        String strDt = simpleDate.format(mNote.getDate());
+
+        mDate = (TextView) view.findViewById(R.id.noteDateText);
+        mDate.setText(strDt);
+        mDate.setGravity(1);
+
+
 
         mTitleField = (EditText) view.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
@@ -268,15 +269,13 @@ public class NoteFragment extends Fragment{
                 mNote.setDate(date);
                 setFormattedDateButton(getActivity());
             } else if (requestCode == REQUEST_PHOTO) {
-                // Create a new photo object and attach it to the note
                 String fileName = data
                         .getStringExtra(NoteCameraFragment.EXTRA_PHOTO_FILENAME);
                 if (fileName != null) {
                     Photo photo = new Photo(fileName);
                     mNote.setPhoto(photo);
-//                    showPhoto();
-//                    mPhotos = mNote.getPhotoArray();
-//                    adapter.notifyAll();
+                    Log.d("onActivityResult","showPhoto");
+                    showPhoto();
                 }
             }
         }
@@ -285,7 +284,6 @@ public class NoteFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // mAudioPlayer.stop();
     }
 
     @Override
@@ -333,10 +331,7 @@ public class NoteFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-//        showPhoto();
-//        mPhotos = mNote.getPhotoArray();
-//        showPhotos();
-
+        showPhoto();
 
     }
 
@@ -350,7 +345,6 @@ public class NoteFragment extends Fragment{
         // Reset the image button's image based o our photo
         Photo photo = mNote.getPhoto();
         BitmapDrawable bitmapDrawable = null;
-
         if (photo != null) {
             String path = getActivity()
                     .getFileStreamPath(photo.getFileName()).getAbsolutePath();
@@ -359,6 +353,11 @@ public class NoteFragment extends Fragment{
         }
         mPhotoView.setImageDrawable(bitmapDrawable);
     }
+
+
+
+
+
 
     private class PhotoAdapter extends ArrayAdapter<Photo> {
        public PhotoAdapter(ArrayList<Photo> photo) {

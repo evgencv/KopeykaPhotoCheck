@@ -24,6 +24,9 @@ public class PictureUtils {
         float destWidth = display.getWidth();
         float destHeight = display.getHeight();
 
+
+
+
         // Read in the dimensions of the image on disk
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

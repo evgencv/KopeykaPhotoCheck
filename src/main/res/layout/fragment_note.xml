@@ -5,12 +5,27 @@
     android:orientation="vertical"
    >
 
-    <EditText
-        android:id="@+id/note_title"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/note_title_hint"
-        android:inputType="text" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/noteDateText"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/date_picker_title" />
+
+        <TextView
+            android:id="@+id/noteTitleText"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/note_title_label" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/note_content"
@@ -20,6 +35,13 @@
         android:gravity="top"
         android:hint="@string/note_text_hint"
         android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/note_title_hint"
+        android:inputType="text" />
 
     <TextView
         android:layout_width="match_parent"
@@ -31,13 +53,32 @@
         android:id="@+id/note_listView"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1">
+
+    </ListView>
+
+    <ImageButton
+        android:id="@+id/note_imageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/iconcamera"
+        android:src="@android:drawable/ic_menu_camera" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal" >
+
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" >
 
         <ImageView
             android:id="@+id/note_imageView"
@@ -47,29 +88,6 @@
             android:contentDescription="@string/icon"
             android:cropToPadding="true"
             android:scaleType="centerInside" />
-
-        <ImageButton
-            android:id="@+id/note_imageButton"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/iconcamera"
-            android:src="@android:drawable/ic_menu_camera" />
-
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/note_details_label"
-        style="?android:listSeparatorTextViewStyle" />
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" >
 
         <Button
                 android:id="@+id/note_date"

@@ -9,6 +9,8 @@ import android.support.v4.app.ListFragment;
 import android.view.*;
 import android.widget.*;
 
+
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +19,8 @@ public class NoteListFragment extends ListFragment
 {
     private ArrayList<Note> mNotes;
     private boolean mSubtitleVisible;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

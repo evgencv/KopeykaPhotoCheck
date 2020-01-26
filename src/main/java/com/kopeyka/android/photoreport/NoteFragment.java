@@ -378,6 +378,10 @@ public class NoteFragment extends Fragment{
                        path);
                ImageView photoItem = (ImageView) convertView.findViewById(R.id.list_item_photo_Image);
                photoItem.setImageDrawable(bitmapDrawable);
+
+               TextView TitleIMG = (TextView) convertView.findViewById(R.id.list_item_photo_Image_text);
+               TitleIMG.setText(String.valueOf(position+1));
+
            }
 
            return convertView;

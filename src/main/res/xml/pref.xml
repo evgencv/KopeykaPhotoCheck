@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Сотрудник"
+        android:key="pref_key_storage_settings">
+        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
+            android:title="Фамилия"
+            android:key="userSurname"
+            android:summary="Введите Фашу Фамилию"
+            android:inputType="text"
+            android:defaultValue="">
+        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
+
+        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
+            android:title="Имя"
+            android:key="userName"
+            android:summary="Введите Ваше имя"
+            android:inputType="text"
+            android:defaultValue="">
+        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
+
+        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
+            android:title="Моб. номер телефона"
+            android:key="userTelephone"
+            android:summary="Введите Ваш мобильный номер"
+            android:inputType="phone"
+            android:digits="+1234567890"
+            android:defaultValue="">
+        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Обмен"
+        android:key="pref_key_storage_settings1">
+
+
+        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
+            android:title="URL адрес обмена данными (внешний)"
+            android:key="url_1"
+            android:summary="URL сервисов"
+            android:defaultValue="http://81.25.229.165:8041/bpm-connector/">
+
+        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
+
+        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
+            android:title="URL адрес обмена данными (локальный)"
+            android:key="url_2"
+            android:summary="URL сервисов"
+            android:defaultValue="http://192.168.250.190/bpm-connector/">
+
+        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
+
+
+
+<!--        <CheckBoxPreference-->
+<!--            android:title="Application Updates"-->
+<!--            android:defaultValue="false"-->
+<!--            android:summary="This option if selected will allow the application to check for latest versions."-->
+<!--            android:key="applicationUpdates" />-->
+        <ListPreference
+            android:title="Download Details"
+            android:summary="Select the kind of data that you would like to download"
+            android:key="downloadType"
+            android:defaultValue="1"
+            android:entries="@array/listArray"
+            android:entryValues="@array/listValues"
+           />
+
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

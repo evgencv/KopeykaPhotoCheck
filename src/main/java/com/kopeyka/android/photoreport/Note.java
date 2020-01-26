@@ -28,6 +28,7 @@ public class Note {
     private static final String JSON_PHOTO = "photo";
     private static final String JSON_PHOTO_ARR = "photo_array";
 
+
     public Note() {
         mId = UUID.randomUUID();
         mDate = new Date();

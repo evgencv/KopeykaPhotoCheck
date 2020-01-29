@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:background="@android:color/darker_gray"
+        android:background="#FFFFFF"
         android:contentDescription="@string/icon"
         android:cropToPadding="true"
         android:scaleType="centerInside" />
@@ -19,7 +19,7 @@
         android:id="@+id/list_item_photo_Image_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
+        android:background="#FDFCFC"
         android:ellipsize="start"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"

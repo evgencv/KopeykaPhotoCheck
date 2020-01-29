@@ -1,6 +1,7 @@
 package com.kopeyka.android.photoreport;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
@@ -11,10 +12,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,26 +22,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import androidx.core.app.NavUtils;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
+
+
+
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-public class NoteFragment extends Fragment{
+public class NoteFragment extends Fragment   {
 
     private Note mNote;
+
+
+
     private EditText mTitleField;
     private EditText mContentField;
+    private EditText mDocNoFiled;
+    private TextView mTitle;
+    private TextView mDate;
     private Button mDateButton;
     private CheckBox mCompleteCheckBox;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private ArrayList<Photo> mPhotos;
-    private TextView mTitle;
-    private TextView mDate;
-
-
 
     private static final String TAG = "NoteFragment";
     public static final String EXTRA_NOTE_ID = "com.android.notes.note_id";
@@ -83,6 +92,8 @@ public class NoteFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setRetainInstance(true);
 
         UUID noteId = (UUID) getArguments().getSerializable(EXTRA_NOTE_ID);
@@ -108,27 +119,29 @@ public class NoteFragment extends Fragment{
 
         setHasOptionsMenu(true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (NavUtils.getParentActivityName(getActivity()) != null) {
-                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-        }
-
-        mTitle = (TextView) view.findViewById(R.id.noteTitleText);
-        mTitle.setText(mNote.getTitle());
 
 
-        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
-        String strDt = simpleDate.format(mNote.getDate());
 
-        mDate = (TextView) view.findViewById(R.id.noteDateText);
-        mDate.setText(strDt);
-        mDate.setGravity(1);
+//
+//        mTitle = (TextView) view.findViewById(R.id.noteTitleText);
+//        mTitle.setText(mNote.getTitle());
+//
+//
+//        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
+//        String strDt = simpleDate.format(mNote.getDate());
+//
+//        mDate = (TextView) view.findViewById(R.id.noteDateText);
+//        mDate.setText(strDt);
+//        mDate.setGravity(1);
 
+        mDocNoFiled = (EditText) view.findViewById(R.id.note_docNo);
+        mDocNoFiled.setText(mNote.getDocNo());
 
 
         mTitleField = (EditText) view.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
+
+        mTitleField.setFocusable(true);
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s,

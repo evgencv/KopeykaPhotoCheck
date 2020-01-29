@@ -10,11 +10,9 @@
     <string name="note_text_label">Описание</string>
     <string name="note_details_label">Details</string>
     <string name="note_complete_label">Отправленно</string>
-    <string name="notes_title">Фотоотчёт</string>
+    <string name="notes_title">Задачи</string>
     <string name="date_picker_title">Дата:</string>
     <string name="note_media">Фото</string>
-    <string name="note_play">Play</string>
-    <string name="note_stop">Stop</string>
     <string name="note_pause">Pause</string>
     <string name="note_record">Record</string>
     <string name="error_no_mic">No mic found</string>

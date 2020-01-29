@@ -1,22 +1,33 @@
 package com.kopeyka.android.photoreport;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 public class NoteCameraActivity extends SingleFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // The calls to requestWindowFeature and addFlags must be made before
-        // the activity's view is created in Activity.setContentView
-        // Hide the window title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // Hide the status bar and other OS-level chrome
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        super.onCreate(savedInstanceState);
+
+        if(ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            super.onCreate(savedInstanceState);
+        }else{
+            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CAMERA}, 0);
+        }
+
+
+
     }
 
     @Override

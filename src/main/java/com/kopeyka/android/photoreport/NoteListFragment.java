@@ -4,12 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
+
 import android.view.*;
 import android.widget.*;
 
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.ListFragment;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -281,7 +282,7 @@ public class NoteListFragment extends ListFragment
 
             TextView dateTextView = (TextView) convertView
                     .findViewById(R.id.note_list_item_dateTextView);
-            dateTextView.setText(getFormattedDate(getActivity(), note));
+            dateTextView.setText("Фотоотчет №"+note.getDocNo()+" от "+getFormattedDate(getActivity(), note));
 
             CheckBox completeCheckBox = (CheckBox) convertView
                     .findViewById(R.id.note_list_item_completeCheckBox);

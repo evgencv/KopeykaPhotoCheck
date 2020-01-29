@@ -1,6 +1,6 @@
 package com.kopeyka.android.photoreport;
 
-import android.support.v4.app.Fragment;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 public class NoteListActivity extends SingleFragmentActivity {
 

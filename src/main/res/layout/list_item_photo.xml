@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    android:background="@drawable/abc_tab_indicator_ab_holo">
+    android:background="@drawable/background_activated">
 
     <ImageView
         android:id="@+id/list_item_photo_Image"

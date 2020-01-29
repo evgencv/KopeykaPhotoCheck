@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
    >
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,14 +15,14 @@
         <TextView
             android:id="@+id/noteDateText"
             style="?android:listSeparatorTextViewStyle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/date_picker_title" />
 
         <TextView
             android:id="@+id/noteTitleText"
-            style="?android:listSeparatorTextViewStyle"
+            style="@android:style/Widget.Holo.TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/note_title_label" />
@@ -34,20 +36,29 @@
         android:layout_weight="0"
         android:gravity="top"
         android:hint="@string/note_text_hint"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:autofillHints="" tools:targetApi="o" />
 
     <EditText
-        android:id="@+id/note_title"
+        android:id="@+id/note_docNo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/note_title_hint"
-        android:inputType="text" />
+        android:layout_height="20dp"
+        android:inputType="text"
+        android:visibility="visible" />
+
+    <EditText
+        android:id="@+id/note_title1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:inputType="text"
+        android:visibility="visible" />
 
     <TextView
+        style="@android:style/Widget.Holo.TextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:text="@string/note_media"
-        style="?android:listSeparatorTextViewStyle" />
+        android:visibility="visible" />
 
     <ListView
         android:id="@+id/note_listView"
@@ -63,15 +74,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/iconcamera"
         android:src="@android:drawable/ic_menu_camera" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal" >
-
-
-    </LinearLayout>
 
     <LinearLayout
             android:orientation="horizontal"
@@ -96,11 +98,12 @@
                 android:layout_weight="4" />
 
         <CheckBox
-                android:id="@+id/note_complete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/note_complete_label"
-                android:layout_weight="1" />
+            android:id="@+id/note_complete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:text="@string/note_complete_label"
+            android:visibility="visible" />
     </LinearLayout>
 
 </LinearLayout>

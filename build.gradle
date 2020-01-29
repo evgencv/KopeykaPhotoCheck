@@ -1,9 +1,13 @@
 buildscript {
     repositories {
-        mavenCentral()
+        maven {
+            url 'https://maven.google.com'
+        }
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:3.5.2'
     }
 }
 apply plugin: 'android'
@@ -13,11 +17,11 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
-        minSdkVersion 20
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -31,6 +35,28 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.+'
-}
+    def nav_version = "2.2.0"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation 'com.google:google:5'
+    implementation 'androidx.fragment:fragment:1.2.0'
+//    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+//    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+
+
+
+
+
+
+
+
+
+
+    }
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+    }

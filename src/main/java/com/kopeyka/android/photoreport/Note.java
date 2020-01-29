@@ -1,6 +1,7 @@
 package com.kopeyka.android.photoreport;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,12 +9,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class Note {
 
     private UUID mId;
     private String mTitle;
+    private String mDocNo;
     private String mContent;
     private Date mDate;
     private Photo mPhoto;
@@ -27,15 +30,21 @@ public class Note {
     private static final String JSON_DATE = "date";
     private static final String JSON_PHOTO = "photo";
     private static final String JSON_PHOTO_ARR = "photo_array";
-
+    private static final String JSON_DOC_NO = "document_number";
 
     public Note() {
         mId = UUID.randomUUID();
         mDate = new Date();
+
     }
 
     public Note(JSONObject json) throws JSONException {
         mId  = UUID.fromString(json.getString(JSON_ID));
+
+
+        if (json.has(JSON_DOC_NO)) {
+            mDocNo = json.getString(JSON_DOC_NO);
+        }
 
         if (json.has(JSON_TITLE)) {
             mTitle = json.getString(JSON_TITLE);
@@ -68,8 +77,14 @@ public class Note {
     }
 
     public JSONObject toJSON() throws JSONException {
+        if (mDocNo == null){
+            Random r = new Random();
+            Integer mDocNoInt = r.nextInt(1000);
+            mDocNo = mDocNoInt.toString();
+        }
         JSONObject json = new JSONObject();
         json.put(JSON_ID, mId.toString());
+        json.put(JSON_DOC_NO,mDocNo);
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_CONTENT, mContent);
         json.put(JSON_COMPLETE, mComplete);
@@ -88,6 +103,22 @@ public class Note {
 
         Log.d(" NOTE toJSON", json.toString());
         return json;
+    }
+
+
+    public String getDocNo() {
+        if (mDocNo == null){
+            Random r = new Random();
+            Integer mDocNoInt = r.nextInt(1000);
+            mDocNo = mDocNoInt.toString();
+
+        }
+
+        return mDocNo;
+    }
+
+    public void setDocNo(String DocNo) {
+        mDocNo = DocNo;
     }
 
     public Date getDate() {

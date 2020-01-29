@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.util.Log;
 import android.view.*;
 import android.widget.ImageButton;
+
+import androidx.fragment.app.Fragment;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,6 +42,8 @@ public class NoteCameraFragment extends Fragment {
     private Camera.PictureCallback mJpegCallBack =
         new Camera.PictureCallback() {
         public void onPictureTaken(byte[] dataJpeg, Camera camera) {
+
+
             String fileName = UUID.randomUUID().toString() + ".jpg";
             FileOutputStream os = null;
             boolean success = true;
@@ -92,9 +96,13 @@ public class NoteCameraFragment extends Fragment {
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCamera != null) {
-                    mCamera.takePicture(mShutterCallback, null, mJpegCallBack);
-                }
+
+                    if (mCamera != null) {
+                        mCamera.takePicture(mShutterCallback, null, mJpegCallBack);
+                    }
+//
+
+
             }
         });
 

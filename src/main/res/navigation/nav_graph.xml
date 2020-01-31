@@ -17,4 +17,17 @@
             android:id="@+id/action_noteFragment2_to_noteListFragment"
             app:destination="@id/noteListFragment" />
     </fragment>
+    <activity
+        android:id="@+id/noteCameraActivity"
+        android:name="com.kopeyka.android.photoreport.NoteCameraActivity"
+        android:label="NoteCameraActivity" />
+    <fragment
+        android:id="@+id/noteCameraFragment"
+        android:name="com.kopeyka.android.photoreport.NoteCameraFragment"
+        android:label="fragment_note_camera"
+        tools:layout="@layout/fragment_note_camera" >
+        <action
+            android:id="@+id/action_noteCameraFragment_to_noteFragment2"
+            app:destination="@id/noteFragment2" />
+    </fragment>
 </navigation>

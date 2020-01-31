@@ -9,6 +9,7 @@ import android.view.*;
 import android.widget.*;
 
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.ListFragment;
 
@@ -44,11 +45,29 @@ public class NoteListFragment extends ListFragment
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, parent, savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (mSubtitleVisible) {
-                getActivity().getActionBar().setSubtitle(R.string.subtitle);
-            }
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//            if (mSubtitleVisible) {
+//                getActivity().getActionBar().setSubtitle(R.string.subtitle);
+//            }
+//        }
 
         // getListView() will also retrieve the view, but returns null
         // until after onCreateView returns

@@ -1,5 +1,6 @@
 package com.kopeyka.android.photoreport;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -123,6 +124,14 @@ public class Note {
 
     public Date getDate() {
         return mDate;
+    }
+
+    public String getDateStr() {
+        return DateFormat.format("dd/MM/yyyy", mDate).toString();
+    }
+
+    public String getTitleFragment(){
+        return "Отчет "+getDocNo() +" от "+ getDateStr();
     }
 
     public void setDate(Date date) {

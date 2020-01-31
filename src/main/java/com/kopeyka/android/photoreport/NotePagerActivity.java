@@ -60,10 +60,9 @@ public class NotePagerActivity extends FragmentActivity
 
         for (int i = 0; i < numNotes; ++i) {
             note = mNotes.get(i);
-
             if (note.getId().equals(noteId)) {
                 mViewPager.setCurrentItem(i);
-                setTitle(note.getTitle());
+                setTitle(note.getTitleFragment());
                 break;
             }
         }
@@ -86,9 +85,8 @@ public class NotePagerActivity extends FragmentActivity
 
             public void onPageSelected(int pos) {
                 Note note = mNotes.get(pos);
-
                 if (note.getTitle() != null) {
-                    setTitle(note.getTitle());
+                    setTitle(note.getTitleFragment());
                 }
             }
         });

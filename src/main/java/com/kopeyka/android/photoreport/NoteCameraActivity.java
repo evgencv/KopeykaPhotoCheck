@@ -32,8 +32,8 @@ public class NoteCameraActivity extends SingleFragmentActivity {
             super.onCreate(savedInstanceState);
 
 
-
     }
+
 
     @Override
     protected Fragment createFragment() {

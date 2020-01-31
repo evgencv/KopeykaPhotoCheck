@@ -25,11 +25,11 @@
         android:layout_toEndOf="@id/note_list_item_completeCheckBox"
         android:layout_toRightOf="@id/note_list_item_completeCheckBox"
         android:paddingLeft="4dp"
+        android:paddingTop="7dp"
         android:paddingRight="4dp"
-        android:text="Название задания"
+        android:text="@string/note_list_titleTitle"
         android:textSize="20sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/note_list_item_dateTextView"
@@ -39,10 +39,10 @@
         android:layout_toEndOf="@id/note_list_item_completeCheckBox"
         android:layout_toRightOf="@id/note_list_item_completeCheckBox"
         android:paddingLeft="4dp"
-        android:paddingTop="4dp"
+        android:paddingTop="7dp"
         android:paddingRight="4dp"
         android:paddingBottom="0dp"
-        android:text="Dummy note date" />
+        android:text="@string/note_list_titleDescr" />
 
 </RelativeLayout>
 

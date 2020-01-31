@@ -112,6 +112,9 @@ public class NoteFragment extends Fragment   {
         // the notes are saved to internal memory
 
 
+
+
+
         // Inflated view is added to parent in the activity code
         View view = inflater.inflate(R.layout.fragment_note,
                 parent,
@@ -236,6 +239,7 @@ public class NoteFragment extends Fragment   {
                     Intent intent = new Intent(getActivity(),
                             NoteCameraActivity.class);
                     startActivityForResult(intent, REQUEST_PHOTO);
+
                 } else {
                     Toast.makeText(getActivity(),
                             getResources()

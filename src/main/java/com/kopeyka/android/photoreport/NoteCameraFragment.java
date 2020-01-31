@@ -185,6 +185,10 @@ public class NoteCameraFragment extends Fragment {
         return view;
     }
 
+
+
+
+
     @TargetApi(9)
     @Override
     public void onResume() {

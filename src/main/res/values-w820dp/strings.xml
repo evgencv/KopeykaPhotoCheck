@@ -2,4 +2,6 @@
 <resources>
     <string name="iconcamera">iconCamera</string>
     <string name="iconcameras">iconCameras</string>
+    <string name="note_list_titleTitle">Название задания</string>
+    <string name="note_list_titleDescr">Dummy note date</string>
 </resources>

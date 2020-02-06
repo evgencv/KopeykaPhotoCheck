@@ -20,8 +20,13 @@ android {
     compileSdkVersion 29
     buildToolsVersion "28.0.3"
 
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -39,12 +44,16 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.google:google:5'
-    implementation 'androidx.fragment:fragment:1.2.0'
-//    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
-//    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    implementation 'androidx.fragment:fragment:1.2.1'
 
 
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+   // implementation 'com.squareup.okhttp3:okhttps:3.4.1'
 
 
 

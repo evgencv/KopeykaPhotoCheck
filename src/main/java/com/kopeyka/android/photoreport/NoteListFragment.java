@@ -1,21 +1,26 @@
 package com.kopeyka.android.photoreport;
 
+import com.kopeyka.android.photoreport.http.*;
+
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
-
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.ListFragment;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NoteListFragment extends ListFragment
 {
@@ -43,13 +48,36 @@ public class NoteListFragment extends ListFragment
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup parent,
                              Bundle savedInstanceState) {
+        API apiboss;
         View view = super.onCreateView(inflater, parent, savedInstanceState);
 
 
 
 
+        apiboss = APIClient.getShop().create(API.class);
+        Call<ShopResponse> call = apiboss.getShop();
+        call.enqueue(new Callback<ShopResponse>() {
+            @Override
+            public void onResponse(Call<ShopResponse> call, Response<ShopResponse> response) {
+                ShopResponse userList = response.body();
+                List<ShopResponse.Shop> datumList = userList.shop;
+
+                for (ShopResponse.Shop shop : datumList) {
+
+                    //Toast.makeText(NoteListFragment.super.getContext(), "Name : " + shop.Name + " Code: " + shop.Code, Toast.LENGTH_SHORT).show();
+                    //Log.d("SHOP","Name : " + shop.Name + " Code: " + shop.Code);
+
+                }
+                Toast.makeText(NoteListFragment.super.getContext(), "Обновлен список магазинов", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ShopResponse> call, Throwable t) {
+                call.cancel();
+            }
 
 
+        });
 
 
 

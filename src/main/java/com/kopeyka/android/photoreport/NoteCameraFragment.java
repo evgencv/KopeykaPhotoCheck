@@ -81,6 +81,15 @@ public class NoteCameraFragment extends Fragment {
         }
     };
 
+    @Override
+    public void  onDestroyView(){
+        getActivity().setResult(Activity.RESULT_CANCELED);
+        getActivity().finish();
+        super.onDestroyView();
+    };
+
+
+
     @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater,

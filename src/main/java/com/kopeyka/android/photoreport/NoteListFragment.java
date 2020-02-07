@@ -48,42 +48,7 @@ public class NoteListFragment extends ListFragment
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup parent,
                              Bundle savedInstanceState) {
-        API apiboss;
         View view = super.onCreateView(inflater, parent, savedInstanceState);
-
-
-
-
-        apiboss = APIClient.getShop().create(API.class);
-        Call<ShopResponse> call = apiboss.getShop();
-        call.enqueue(new Callback<ShopResponse>() {
-            @Override
-            public void onResponse(Call<ShopResponse> call, Response<ShopResponse> response) {
-                ShopResponse userList = response.body();
-                List<ShopResponse.Shop> datumList = userList.shop;
-
-                for (ShopResponse.Shop shop : datumList) {
-
-                    //Toast.makeText(NoteListFragment.super.getContext(), "Name : " + shop.Name + " Code: " + shop.Code, Toast.LENGTH_SHORT).show();
-                    //Log.d("SHOP","Name : " + shop.Name + " Code: " + shop.Code);
-
-                }
-                Toast.makeText(NoteListFragment.super.getContext(), "Обновлен список магазинов", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ShopResponse> call, Throwable t) {
-                call.cancel();
-            }
-
-
-        });
-
-
-
-
-
-
 
 
 

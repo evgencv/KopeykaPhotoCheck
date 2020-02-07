@@ -28,6 +28,13 @@
             android:defaultValue="">
         </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
 
+        <com.kopeyka.android.photoreport.CLS.Prefs_List
+            android:key="userShop"
+            android:title="Магазин"
+            android:summary="Выберете Ваш магазин"
+            android:entries="@array/Shop"
+            android:entryValues="@array/ShopAlias">
+    </com.kopeyka.android.photoreport.CLS.Prefs_List>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -39,7 +46,7 @@
             android:title="URL адрес обмена данными (внешний)"
             android:key="url_1"
             android:summary="URL сервисов"
-            android:defaultValue="http://81.25.229.165:8041/bpm-connector/">
+            android:defaultValue="http://81.25.229.165:8041">
 
         </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
 
@@ -47,7 +54,7 @@
             android:title="URL адрес обмена данными (локальный)"
             android:key="url_2"
             android:summary="URL сервисов"
-            android:defaultValue="http://192.168.250.190/bpm-connector/">
+            android:defaultValue="http://192.168.250.190">
 
         </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
 
@@ -58,14 +65,14 @@
 <!--            android:defaultValue="false"-->
 <!--            android:summary="This option if selected will allow the application to check for latest versions."-->
 <!--            android:key="applicationUpdates" />-->
-        <ListPreference
-            android:title="Download Details"
-            android:summary="Select the kind of data that you would like to download"
-            android:key="downloadType"
-            android:defaultValue="1"
-            android:entries="@array/listArray"
-            android:entryValues="@array/listValues"
-           />
+<!--        <ListPreference-->
+<!--            android:title="Download Details"-->
+<!--            android:summary="Select the kind of data that you would like to download"-->
+<!--            android:key="downloadType"-->
+<!--            android:defaultValue="1"-->
+<!--            android:entries="@array/listArray"-->
+<!--            android:entryValues="@array/listValues"-->
+<!--           />-->
 
 
 

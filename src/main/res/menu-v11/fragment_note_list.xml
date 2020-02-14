@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_item_new_note"
-          android:icon="@android:drawable/ic_menu_add"
-          android:title="@string/new_note"
-          android:showAsAction="ifRoom|withText"/>
-    <item android:id="@+id/menu_item_show_subtitle"
-          android:title="@string/show_subtitle"
-          android:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_new_note"
+        android:icon="@drawable/baseline_add_box_24"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/new_note" />
+
+
+    <item
+        android:id="@+id/menu_item_download_note"
+        android:icon="@drawable/baseline_cloud_download_24"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/downLoad_note" />
+
+
+<!--    <item android:id="@+id/menu_item_show_subtitle"-->
+<!--          android:title="@string/show_subtitle"-->
+<!--          android:showAsAction="never" />-->
 </menu>
 

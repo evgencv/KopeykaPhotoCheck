@@ -30,10 +30,23 @@ public class APIClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-
-
-
         return retrofit;
     }
+    public static Retrofit getTask() {
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new BasicAuthInterceptor("ws_bot", "$47t8ybjb_yn"))
+                .addInterceptor(interceptor)
+                .build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://81.25.229.165:8041")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+        return retrofit;
+    }
 }

@@ -49,7 +49,7 @@
             android:defaultValue="http://81.25.229.165:8041">
 
         </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
-
+0  
         <com.kopeyka.android.photoreport.CLS.Prefs_Edit
             android:title="URL адрес обмена данными (локальный)"
             android:key="url_2"

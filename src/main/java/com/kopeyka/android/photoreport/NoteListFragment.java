@@ -1,10 +1,13 @@
 package com.kopeyka.android.photoreport;
 
-import com.kopeyka.android.photoreport.http.*;
+
+import com.kopeyka.android.photoreport.http.API;
+import com.kopeyka.android.photoreport.http.APIClient;
+import com.kopeyka.android.photoreport.http.TaskResponse;
+import android.os.Build;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -21,6 +24,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class NoteListFragment extends ListFragment
 {
@@ -156,10 +160,10 @@ public class NoteListFragment extends ListFragment
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_note_list, menu);
 
-        MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
-        if (mSubtitleVisible && showSubtitle != null) {
-            showSubtitle.setTitle(R.string.hide_subtitle);
-        }
+//        MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
+//        if (mSubtitleVisible && showSubtitle != null) {
+//            showSubtitle.setTitle(R.string.hide_subtitle);
+//        }
     }
 
     @Override
@@ -198,6 +202,7 @@ public class NoteListFragment extends ListFragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean selectionHandled;
+        API apiboss;
 
         switch (item.getItemId()) {
             case R.id.menu_item_new_note:
@@ -211,17 +216,33 @@ public class NoteListFragment extends ListFragment
 
                 selectionHandled = true;
                 break;
-            case R.id.menu_item_show_subtitle:
-                if (getActivity().getActionBar().getSubtitle() == null) {
-                    getActivity().getActionBar().setSubtitle(R.string.subtitle);
-                    mSubtitleVisible = true;
-                    item.setTitle(R.string.hide_subtitle);
-                } else {
-                    getActivity().getActionBar().setSubtitle(null);
-                    mSubtitleVisible = false;
-                    item.setTitle(R.string.show_subtitle);
-                }
-                selectionHandled = true;
+            case R.id.menu_item_download_note:
+
+
+                apiboss = APIClient.getTask().create(API.class);
+                Call<TaskResponse> call = apiboss.getTask();
+                call.enqueue(new Callback<TaskResponse>() {
+                    @Override
+                    public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                        TaskResponse userList = response.body();
+                        List<TaskResponse.Document> datumList = userList.document;
+
+                        for (TaskResponse.Document itm : datumList) {
+                            Toast.makeText(NoteListFragment.super.getContext(), "Name : " + itm.Name + " guid: " + itm.guid, Toast.LENGTH_SHORT).show();
+                            Log.d("SHOP","Name : " + itm.Name + " Code: " + itm.Description);
+                           // Toast.makeText(getActivity(), "Обновлен список заданий", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    @Override
+                    public void onFailure(Call<TaskResponse> call, Throwable t) {
+                        call.cancel();
+                    }
+
+
+                });
+
+                selectionHandled = false;
                 break;
             default:
                 selectionHandled = super.onOptionsItemSelected(item);
@@ -304,3 +325,5 @@ public class NoteListFragment extends ListFragment
         }
     }
 }
+
+

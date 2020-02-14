@@ -19,6 +19,9 @@
     <string name="error_no_camera">No camera found</string>
     <string name="error_saving">Error while saving</string>
     <string name="new_note">Новый фотоотчет</string>
+    <string name="downLoad_note">Обновить</string>
+
+
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle">Remember Everything</string>
@@ -34,6 +37,6 @@
     <string name="pref_title">Настройки приложения</string>
     <string name="Preference_ShopTitle">Магазин</string>
     <string name="note_list_titleTitle">Название задания</string>
-    <string name="note_list_titleDescr">Dummy note date</string>
+    <string name="note_list_titleDescr">Номер документа</string>
 
 </resources>

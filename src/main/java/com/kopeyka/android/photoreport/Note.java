@@ -36,6 +36,14 @@ public class Note {
     public Note() {
         mId = UUID.randomUUID();
         mDate = new Date();
+    }
+
+    public Note (UUID guid, Date date,String Title,String Content,String DocNo) {
+        mId = guid;
+        mDate = date;
+        mTitle = Title;
+        mContent = Content;
+        mDocNo = DocNo;
 
     }
 
@@ -106,7 +114,6 @@ public class Note {
         return json;
     }
 
-
     public String getDocNo() {
         if (mDocNo == null){
             Random r = new Random();
@@ -131,7 +138,7 @@ public class Note {
     }
 
     public String getTitleFragment(){
-        return "Отчет "+getDocNo() +" от "+ getDateStr();
+        return "Док:"+getDocNo() +" ("+ getDateStr()+")";
     }
 
     public void setDate(Date date) {

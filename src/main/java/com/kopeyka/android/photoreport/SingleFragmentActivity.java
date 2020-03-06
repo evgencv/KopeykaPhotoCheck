@@ -18,8 +18,13 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
         setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
+
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
+        if (getIntent().getBooleanExtra("LOGOUT", false))
+        {
+            finish();
+        }
 
         if (fragment == null) {
             fragment = createFragment();
@@ -27,6 +32,9 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
                 .add(R.id.fragmentContainer, fragment)
                 .addToBackStack(null)
                 .commit();
+
+
+
         }
     }
 }

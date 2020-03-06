@@ -37,46 +37,46 @@
     </com.kopeyka.android.photoreport.CLS.Prefs_List>
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Обмен"
-        android:key="pref_key_storage_settings1">
+<!--    <PreferenceCategory-->
+<!--        android:title="Обмен"-->
+<!--        android:key="pref_key_storage_settings1">-->
 
 
-        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
-            android:title="URL адрес обмена данными (внешний)"
-            android:key="url_1"
-            android:summary="URL сервисов"
-            android:defaultValue="http://81.25.229.165:8041">
+<!--        <com.kopeyka.android.photoreport.CLS.Prefs_Edit-->
+<!--            android:title="URL адрес обмена данными (внешний)"-->
+<!--            android:key="url_1"-->
+<!--            android:summary="URL сервисов"-->
+<!--            android:defaultValue="http://81.25.229.165:8041">-->
 
-        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
-0  
-        <com.kopeyka.android.photoreport.CLS.Prefs_Edit
-            android:title="URL адрес обмена данными (локальный)"
-            android:key="url_2"
-            android:summary="URL сервисов"
-            android:defaultValue="http://192.168.250.190">
+<!--        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>-->
+<!--0  -->
+<!--        <com.kopeyka.android.photoreport.CLS.Prefs_Edit-->
+<!--            android:title="URL адрес обмена данными (локальный)"-->
+<!--            android:key="url_2"-->
+<!--            android:summary="URL сервисов"-->
+<!--            android:defaultValue="http://192.168.250.190">-->
 
-        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>
-
-
-
-<!--        <CheckBoxPreference-->
-<!--            android:title="Application Updates"-->
-<!--            android:defaultValue="false"-->
-<!--            android:summary="This option if selected will allow the application to check for latest versions."-->
-<!--            android:key="applicationUpdates" />-->
-<!--        <ListPreference-->
-<!--            android:title="Download Details"-->
-<!--            android:summary="Select the kind of data that you would like to download"-->
-<!--            android:key="downloadType"-->
-<!--            android:defaultValue="1"-->
-<!--            android:entries="@array/listArray"-->
-<!--            android:entryValues="@array/listValues"-->
-<!--           />-->
+<!--        </com.kopeyka.android.photoreport.CLS.Prefs_Edit>-->
 
 
 
+<!--&lt;!&ndash;        <CheckBoxPreference&ndash;&gt;-->
+<!--&lt;!&ndash;            android:title="Application Updates"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:defaultValue="false"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:summary="This option if selected will allow the application to check for latest versions."&ndash;&gt;-->
+<!--&lt;!&ndash;            android:key="applicationUpdates" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <ListPreference&ndash;&gt;-->
+<!--&lt;!&ndash;            android:title="Download Details"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:summary="Select the kind of data that you would like to download"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:key="downloadType"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:defaultValue="1"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:entries="@array/listArray"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:entryValues="@array/listValues"&ndash;&gt;-->
+<!--&lt;!&ndash;           />&ndash;&gt;-->
 
-    </PreferenceCategory>
+
+
+
+<!--    </PreferenceCategory>-->
 
 </PreferenceScreen>

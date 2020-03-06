@@ -19,6 +19,11 @@ public class TaskResponse {
 
         @SerializedName("guid")
         public String guid;
+
+        @SerializedName("DocNo")
+        public String DocNo;
+
+
     }
 
 }

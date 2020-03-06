@@ -13,13 +13,18 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.ListFragment;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +51,14 @@ public class NoteListFragment extends ListFragment
         NoteAdapter adapter = new NoteAdapter(mNotes);
         setListAdapter(adapter);
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        getActivity().finish();
+
+    }
+
 
     @TargetApi(11)
     @Override
@@ -147,7 +160,7 @@ public class NoteListFragment extends ListFragment
                 public void onDestroyActionMode(ActionMode mode) {
                     // Called when ActionMode is about the be destroyed from
                     // the user cancelling or the action being responded to
-                    // This space intentionally left blank
+                    // This space intentionally left blank left blank
                 }
             });
         }
@@ -205,18 +218,19 @@ public class NoteListFragment extends ListFragment
         API apiboss;
 
         switch (item.getItemId()) {
-            case R.id.menu_item_new_note:
-                Note note = new Note();
-                Notebook.getInstance(getActivity()).addNote(note);
-
-                Intent intent =
-                    new Intent(getActivity(), NotePagerActivity.class);
-                intent.putExtra(NoteFragment.EXTRA_NOTE_ID, note.getId());
-                startActivityForResult(intent, 0);
-
-                selectionHandled = true;
-                break;
+//            case R.id.menu_item_new_note:
+//                Note note = new Note();
+//                Notebook.getInstance(getActivity()).addNote(note);
+//
+//                Intent intent =
+//                    new Intent(getActivity(), NotePagerActivity.class);
+//                intent.putExtra(NoteFragment.EXTRA_NOTE_ID, note.getId());
+//                startActivityForResult(intent, 0);
+//
+//                selectionHandled = true;
+//                break;
             case R.id.menu_item_download_note:
+                mNotes = Notebook.getInstance(getActivity()).getNotes();
 
 
                 apiboss = APIClient.getTask().create(API.class);
@@ -224,14 +238,43 @@ public class NoteListFragment extends ListFragment
                 call.enqueue(new Callback<TaskResponse>() {
                     @Override
                     public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                        NoteAdapter adapter = (NoteAdapter)getListAdapter();
                         TaskResponse userList = response.body();
                         List<TaskResponse.Document> datumList = userList.document;
+                        boolean findNoteAll = false;
 
                         for (TaskResponse.Document itm : datumList) {
-                            Toast.makeText(NoteListFragment.super.getContext(), "Name : " + itm.Name + " guid: " + itm.guid, Toast.LENGTH_SHORT).show();
-                            Log.d("SHOP","Name : " + itm.Name + " Code: " + itm.Description);
-                           // Toast.makeText(getActivity(), "Обновлен список заданий", Toast.LENGTH_SHORT).show();
+                            boolean findNote = false;
+
+                            for (Note itmNote:mNotes) {
+                                if (itmNote.getId().toString().equals(itm.guid)){
+                                    findNote = true;
+
+                                }
+                            }
+                            if (!findNote){
+
+                                Date dateNote = Calendar.getInstance().getTime();
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                try {
+                                    dateNote = format.parse(itm.Date);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                                Note note = new Note(UUID.fromString(itm.guid), dateNote , itm.Name,itm.Description,itm.DocNo);
+                                Notebook.getInstance(getActivity()).addNote(note);
+                                Log.d("SHOP","Name : " + itm.Name + " Code: " + itm.Description);
+                                findNoteAll = true;
+
+                            }
                         }
+                        if (findNoteAll) {
+                            Toast.makeText(NoteListFragment.super.getContext(), "Получены новые задания", Toast.LENGTH_SHORT).show();
+                        }
+
+                        adapter.notifyDataSetChanged();
 
                     }
                     @Override
@@ -242,13 +285,12 @@ public class NoteListFragment extends ListFragment
 
                 });
 
-                selectionHandled = false;
+                selectionHandled = true;
                 break;
             default:
                 selectionHandled = super.onOptionsItemSelected(item);
                 break;
         }
-
         return selectionHandled;
     }
 
@@ -256,7 +298,7 @@ public class NoteListFragment extends ListFragment
     public void onListItemClick(ListView l, View v, int position, long id) {
         Note note = ((NoteAdapter)getListAdapter()).getItem(position);
 
-        // Start NotePagerActivity with this note
+        // Start NotePagerActivity with this notekkjkkjjkjjj
         // NoteListFragment uses getActivity() to pass its hosting
         // activity as the Context object that the Intent constructor needs
         Intent intent = new Intent(getActivity(), NotePagerActivity.class);
@@ -266,8 +308,6 @@ public class NoteListFragment extends ListFragment
 
     @Override
     public void onResume() {
-        // Update the list view onResume,
-        // as it might have been paused not killed
         super.onResume();
         ((NoteAdapter)getListAdapter()).notifyDataSetChanged();
     }

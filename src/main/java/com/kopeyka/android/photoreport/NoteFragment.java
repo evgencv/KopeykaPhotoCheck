@@ -1,41 +1,44 @@
 package com.kopeyka.android.photoreport;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
-
-
+import com.kopeyka.android.photoreport.http.API;
+import com.kopeyka.android.photoreport.http.APIClient;
+import com.kopeyka.android.photoreport.http.DocRequest;
+import com.kopeyka.android.photoreport.http.TaskResponse;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NoteFragment extends Fragment   {
 
@@ -72,7 +75,6 @@ public class NoteFragment extends Fragment   {
 
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -90,12 +92,55 @@ public class NoteFragment extends Fragment   {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_note, menu);
+    }
+
+
+    @TargetApi(11)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean selectionHandled;
+        API apiboss;
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_download_note:
+                Toast.makeText(super.getContext(), "11111", Toast.LENGTH_SHORT).show();
+
+
+
+                apiboss = APIClient.putDoc().create(API.class);
+                Call<DocRequest> call = apiboss.postJson(new DocRequest(mNote,this));
+                call.enqueue(new Callback<DocRequest>(){
+                    @Override
+                    public void onResponse(Call<DocRequest> call, Response<DocRequest> response) {
+                     }
+
+                    @Override
+                    public void onFailure(Call<DocRequest> call, Throwable t) {
+
+                    }
+
+                });
+
+
+
+                selectionHandled = super.onOptionsItemSelected(item);
+                break;
+            default:
+                selectionHandled = super.onOptionsItemSelected(item);
+                break;
+        }
+        return selectionHandled;
+    }
+
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setRetainInstance(true);
-
         UUID noteId = (UUID) getArguments().getSerializable(EXTRA_NOTE_ID);
         mNote = Notebook.getInstance(getActivity()).getNote(noteId);
     }
@@ -103,28 +148,14 @@ public class NoteFragment extends Fragment   {
     @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater,
-                             ViewGroup parent,
+                            ViewGroup parent,
                              Bundle savedInstanceState) {
-        // TODO: Might be a problem if a title contains characters that
-        // are not allowed by the Android file system
-        // Ask the user to supply a file name instead
-        // This is also written to external storage, whereas
-        // the notes are saved to internal memory
 
 
-
-
-
-        // Inflated view is added to parent in the activity code
-        View view = inflater.inflate(R.layout.fragment_note,
+          View view = inflater.inflate(R.layout.fragment_note,
                 parent,
                 false);
-
         setHasOptionsMenu(true);
-
-
-
-
 //
 //        mTitle = (TextView) view.findViewById(R.id.noteTitleText);
 //        mTitle.setText(mNote.getTitle());
@@ -277,6 +308,8 @@ public class NoteFragment extends Fragment   {
         return view;
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -293,6 +326,8 @@ public class NoteFragment extends Fragment   {
                     mNote.setPhoto(photo);
                     Log.d("onActivityResult","showPhoto");
                     showPhoto();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(this).attach(this).commit();
                 }
             }
         }
@@ -306,25 +341,6 @@ public class NoteFragment extends Fragment   {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean selectionHandled;
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
-                selectionHandled = true;
-                break;
-            default:
-                selectionHandled = super.onOptionsItemSelected(item);
-                break;
-        }
-
-        return selectionHandled;
     }
 
     @Override
@@ -370,11 +386,6 @@ public class NoteFragment extends Fragment   {
         }
         mPhotoView.setImageDrawable(bitmapDrawable);
     }
-
-
-
-
-
 
     private class PhotoAdapter extends ArrayAdapter<Photo> {
        public PhotoAdapter(ArrayList<Photo> photo) {

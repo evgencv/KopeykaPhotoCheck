@@ -1,8 +1,8 @@
 package com.kopeyka.android.photoreport.http;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.FormUrlEncoded;
 
 
 public interface API {
@@ -14,5 +14,8 @@ public interface API {
     @POST("/bpm-connector/hs/PhotoReport/Task")
     Call<TaskResponse> getTask();
 
+
+    @POST("/bpm-connector/hs/PhotoReport/getDocument")
+    Call<DocRequest> postJson(@Body DocRequest body);
 
 }

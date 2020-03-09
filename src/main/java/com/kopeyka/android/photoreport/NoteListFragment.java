@@ -249,7 +249,6 @@ public class NoteListFragment extends ListFragment
                             for (Note itmNote:mNotes) {
                                 if (itmNote.getId().toString().equals(itm.guid)){
                                     findNote = true;
-
                                 }
                             }
                             if (!findNote){
@@ -261,8 +260,6 @@ public class NoteListFragment extends ListFragment
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-
-
                                 Note note = new Note(UUID.fromString(itm.guid), dateNote , itm.Name,itm.Description,itm.DocNo);
                                 Notebook.getInstance(getActivity()).addNote(note);
                                 Log.d("SHOP","Name : " + itm.Name + " Code: " + itm.Description);
@@ -272,6 +269,9 @@ public class NoteListFragment extends ListFragment
                         }
                         if (findNoteAll) {
                             Toast.makeText(NoteListFragment.super.getContext(), "Получены новые задания", Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Toast.makeText(NoteListFragment.super.getContext(), "Новые задания отсутствуют", Toast.LENGTH_SHORT).show();
                         }
 
                         adapter.notifyDataSetChanged();
@@ -279,6 +279,7 @@ public class NoteListFragment extends ListFragment
                     }
                     @Override
                     public void onFailure(Call<TaskResponse> call, Throwable t) {
+                        Toast.makeText(NoteListFragment.super.getContext(), "Ошибка связи", Toast.LENGTH_SHORT).show();
                         call.cancel();
                     }
 

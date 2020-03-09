@@ -1,109 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-   >
+    >
 
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/note_title"
+        style="@android:style/Widget.Material.EditText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/noteDateText"
-            style="?android:listSeparatorTextViewStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/date_picker_title" />
-
-        <TextView
-            android:id="@+id/noteTitleText"
-            style="@android:style/Widget.Holo.TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/note_title_label" />
-
-    </LinearLayout>
+        android:clickable="false"
+        android:editable="false"
+        android:hint="@string/note_title_hint"
+        android:importantForAutofill="no"
+        android:inputType="none" />
 
     <EditText
         android:id="@+id/note_content"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_weight="0"
         android:gravity="top"
         android:hint="@string/note_text_hint"
+        android:importantForAutofill="no"
         android:inputType="textMultiLine"
-        android:autofillHints="" tools:targetApi="o" />
+        android:scrollIndicators="right"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbarSize="10dp"
+        android:scrollbars="vertical" />
 
     <EditText
         android:id="@+id/note_docNo"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/note_title_hint"
+        android:importantForAutofill="no"
         android:inputType="text"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/note_title1"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:inputType="text"
-        android:visibility="visible" />
 
     <TextView
-        style="@android:style/Widget.Holo.TextView"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:text="@string/note_media"
-        android:visibility="visible" />
+        android:layout_height="wrap_content"
+        android:text="@string/note_media" />
+
 
     <ListView
         android:id="@+id/note_listView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
     </ListView>
 
-    <ImageButton
-        android:id="@+id/note_imageButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/iconcamera"
-        android:src="@android:drawable/ic_menu_camera" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/note_date"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" >
+            android:layout_weight="4"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/note_imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/darker_gray"
             android:contentDescription="@string/icon"
             android:cropToPadding="true"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:visibility="gone" />
 
-        <Button
-                android:id="@+id/note_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="4" />
+        <ImageButton
+            android:id="@+id/note_imageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="@string/iconcamera"
+            android:src="@android:drawable/ic_menu_camera" />
 
         <CheckBox
             android:id="@+id/note_complete"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/note_complete_label"
-            android:visibility="visible" />
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_item_download_note"
-        android:icon="@drawable/baseline_cloud_upload_24"
+        android:icon="@drawable/baseline_cloud_upload_black_18"
         android:showAsAction="ifRoom|withText"
         android:title="@string/downLoad_note" />
 

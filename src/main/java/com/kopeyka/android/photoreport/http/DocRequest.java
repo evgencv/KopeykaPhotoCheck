@@ -97,15 +97,11 @@ public class DocRequest {
         for (int i = 0; i < photoArr.size(); i++) {
 
             Photo photoImg = (Photo) photoArr.get(i);
-            BitmapDrawable bitmapDrawable = null;
             if (photoImg != null) {
-                String path = fragment.getActivity()
-                        .getFileStreamPath(photoImg.getFileName()).getAbsolutePath();
-                bitmapDrawable = PictureUtils.getScaledDrawable(fragment.getActivity(),
-                        path);
-
-
-                PhotoJson PhotoItem = new PhotoJson("aaqae1aaswss");
+                String path = fragment.getActivity().getFileStreamPath(photoImg.getFileName()).getAbsolutePath();
+                String base64Img = PictureUtils.getBase64FromPath(path);
+                PhotoJson PhotoItem = new PhotoJson(base64Img);
+                //PhotoJson PhotoItem = new PhotoJson("8769696");
                 this.PhotoList.add(PhotoItem);
             }
         }

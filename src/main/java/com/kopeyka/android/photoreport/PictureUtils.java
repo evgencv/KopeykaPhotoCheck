@@ -4,9 +4,16 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
+import android.util.Base64;
 import android.view.Display;
 
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 
 public class PictureUtils {
 
@@ -66,6 +73,22 @@ public class PictureUtils {
             bitmapDrawable.getBitmap().recycle();
             imageView.setImageDrawable(null);
         }
+    }
+
+
+    public static String getBase64FromPath(String path) {
+        String base64 = "";
+        try {
+            File file = new File(path);
+            byte[] buffer = new byte[(int) file.length() + 100];
+            @SuppressWarnings("resource")
+            int length = new FileInputStream(file).read(buffer);
+            base64 = Base64.encodeToString(buffer, 0, length,
+                    Base64.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return base64;
     }
 }
 

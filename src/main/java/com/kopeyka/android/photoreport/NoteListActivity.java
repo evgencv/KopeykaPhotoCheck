@@ -62,7 +62,7 @@ public class NoteListActivity extends SingleFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
 
         Intent i = new Intent(this, PrefActivity.class);
 

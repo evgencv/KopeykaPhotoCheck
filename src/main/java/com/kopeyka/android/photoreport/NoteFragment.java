@@ -42,7 +42,7 @@ import retrofit2.Response;
 
 public class NoteFragment extends Fragment   {
 
-    private Note mNote;
+    public Note mNote;
 
 
 
@@ -98,6 +98,7 @@ public class NoteFragment extends Fragment   {
     }
 
 
+
     @TargetApi(11)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -106,21 +107,33 @@ public class NoteFragment extends Fragment   {
 
         switch (item.getItemId()) {
             case R.id.menu_item_download_note:
-                Toast.makeText(super.getContext(), "11111", Toast.LENGTH_SHORT).show();
-
-
-
+                if (mNote.isComplete()){
+                    Toast.makeText(NoteFragment.super.requireContext(), "Отчет уже отправлен ранее", Toast.LENGTH_SHORT).show();
+                    selectionHandled = super.onOptionsItemSelected(item);
+                    break;
+                }
                 apiboss = APIClient.putDoc().create(API.class);
                 Call<DocRequest> call = apiboss.postJson(new DocRequest(mNote,this));
                 call.enqueue(new Callback<DocRequest>(){
                     @Override
                     public void onResponse(Call<DocRequest> call, Response<DocRequest> response) {
+
+                        if (response.code() == 200) {
+                            Toast.makeText(NoteFragment.super.requireContext(), "Фотоотчет отправлен успешно", Toast.LENGTH_SHORT).show();
+                            mNote.setComplete(true);
+
+                            } else {
+                            Toast.makeText(NoteFragment.super.requireContext(), "Нет связи с офисом попробуйте позже", Toast.LENGTH_SHORT).show();
+
+                        }
                      }
 
                     @Override
                     public void onFailure(Call<DocRequest> call, Throwable t) {
-
+                        Toast.makeText(NoteFragment.super.requireContext(), "Нет связи с офисом попробуйте позже", Toast.LENGTH_SHORT).show();
                     }
+
+
 
                 });
 

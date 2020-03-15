@@ -1,7 +1,13 @@
 package com.kopeyka.android.photoreport;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Photo {
 
@@ -17,6 +23,7 @@ public class Photo {
         mFileName = json.getString(JSON_FILENAME);
     }
 
+
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put(JSON_FILENAME, mFileName);
@@ -25,5 +32,15 @@ public class Photo {
 
     public String getFileName() {
         return mFileName;
+    }
+
+    public void deleteFiles() {
+        File file = new File(this.mFileName);
+        boolean deleted = file.delete();
+        if (deleted){
+            Toast.makeText(App.getContext(), "файл удален "+this.mFileName, Toast.LENGTH_SHORT).show();
+      }
+
+
     }
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +44,7 @@ import retrofit2.Response;
 public class NoteFragment extends Fragment   {
 
     public Note mNote;
-
+    public PhotoAdapter adapter;
 
 
     private EditText mTitleField;
@@ -156,6 +157,7 @@ public class NoteFragment extends Fragment   {
         setRetainInstance(true);
         UUID noteId = (UUID) getArguments().getSerializable(EXTRA_NOTE_ID);
         mNote = Notebook.getInstance(getActivity()).getNote(noteId);
+
     }
 
     @TargetApi(11)
@@ -297,8 +299,9 @@ public class NoteFragment extends Fragment   {
 
         ListView listView = (ListView) view.findViewById(R.id.note_listView);
         mPhotos = mNote.getPhotoArray();
-        PhotoAdapter adapter = new PhotoAdapter(mPhotos);
+        adapter = new PhotoAdapter(mPhotos);
         listView.setAdapter(adapter);
+        registerForContextMenu(listView);
 
 
         mPhotoView = (ImageView) view.findViewById(R.id.note_imageView);
@@ -321,26 +324,56 @@ public class NoteFragment extends Fragment   {
         return view;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu,
+                                    View view,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.note_list_item_context,
+                menu);
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        boolean selectionHandled;
+
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int position = info.position;
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_note:
+                mPhotos = mNote.getPhotoArray();
+                ArrayList<Photo> tempList = new ArrayList<>();
+                tempList.add(mPhotos.get(position));
+                mNote.delPhotos(tempList);
+                tempList.clear();
+                mPhotos = mNote.getPhotoArray();
+                adapter.notifyDataSetChanged();
+                selectionHandled = true;
+                break;
+            default:
+                selectionHandled = super.onContextItemSelected(item);
+                break;
+        }
+
+        return selectionHandled;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_DATE) {
-                Date date = (Date) data
-                        .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-                mNote.setDate(date);
-                setFormattedDateButton(getActivity());
-            } else if (requestCode == REQUEST_PHOTO) {
+            if (requestCode == REQUEST_PHOTO) {
                 String fileName = data
                         .getStringExtra(NoteCameraFragment.EXTRA_PHOTO_FILENAME);
                 if (fileName != null) {
                     Photo photo = new Photo(fileName);
                     mNote.setPhoto(photo);
-                    Log.d("onActivityResult","showPhoto");
-                    showPhoto();
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.detach(this).attach(this).commit();
+                    mPhotos = mNote.getPhotoArray();
+                    adapter.notifyDataSetChanged();
+//                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                    ft.detach(this).attach(this).commit();
+
+
                 }
             }
         }

@@ -299,9 +299,6 @@ public class NoteListFragment extends ListFragment
     public void onListItemClick(ListView l, View v, int position, long id) {
         Note note = ((NoteAdapter)getListAdapter()).getItem(position);
 
-        // Start NotePagerActivity with this notekkjkkjjkjjj
-        // NoteListFragment uses getActivity() to pass its hosting
-        // activity as the Context object that the Intent constructor needs
         Intent intent = new Intent(getActivity(), NotePagerActivity.class);
         intent.putExtra(NoteFragment.EXTRA_NOTE_ID, note.getId());
         startActivity(intent);

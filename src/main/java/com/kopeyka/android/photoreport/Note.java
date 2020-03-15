@@ -186,4 +186,14 @@ public class Note {
         mPhotoArray.add(photo);
 
     }
+
+    public void delPhotos(ArrayList<Photo> photoList) {
+        mPhotoArray.removeAll(photoList);
+        for (Photo photo : photoList) {
+            photo.deleteFiles();
+        }
+
+
+
+    }
 }

@@ -30,7 +30,6 @@ public class NoteCameraFragment extends Fragment {
     private View mProgressContainer;
     private ImageButton mPhotoButton;
 
-
     private Camera.ShutterCallback mShutterCallback =
         new Camera.ShutterCallback() {
         public void onShutter() {
@@ -95,6 +94,7 @@ public class NoteCameraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup parent,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_note_camera,
                                      parent,
                                      false);
@@ -117,17 +117,12 @@ public class NoteCameraFragment extends Fragment {
 
 
 
-        mSurfaceview = (SurfaceView)view
-            .findViewById(R.id.note_camera_surfaceView);
+        mSurfaceview = (SurfaceView)view.findViewById(R.id.note_camera_surfaceView);
         SurfaceHolder holder = mSurfaceview.getHolder();
-        // Both setType() and SURFACE_TYPE_PUSH_BUFFERS are deprecated
-        // but are both required for Camera preview to work on pre-3.0 devices
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         holder.addCallback(new SurfaceHolder.Callback() {
 
             public void surfaceCreated(SurfaceHolder holder) {
-                // Tell the camera to use this surface as its preview area
-                // Connect the surface with its client the camera
                 try {
                     if (mCamera != null) {
                         mCamera.setPreviewDisplay(holder);
@@ -138,10 +133,7 @@ public class NoteCameraFragment extends Fragment {
             }
 
             public void surfaceDestroyed(SurfaceHolder holder) {
-                // Called when the SurfaceView is removed from the screen
-                // We can no longer display on this surface, so stop the preview
                 if (mCamera != null) {
-                    // Stop drawing frames on the surface
                     mCamera.stopPreview();
                 }
             }
@@ -150,10 +142,7 @@ public class NoteCameraFragment extends Fragment {
                                        int format,
                                        int width,
                                        int height) {
-                // Called when the surface is being displayed for the first time
-                // Tell the surface's client how big the drawing will be
                 if (mCamera != null) {
-                    // The surface changed size; update the camera preview size
                     Camera.Parameters params = mCamera.getParameters();
                     Camera.Size size =
                         getOptimalPreviewSize(params.getSupportedPreviewSizes(),
@@ -176,7 +165,6 @@ public class NoteCameraFragment extends Fragment {
                     mCamera.setParameters(params);
 
                     try {
-                        // Start drawing frames on the surface
                         mCamera.startPreview();
                     } catch (Exception e) {
                         Log.e(TAG, "Could not start preview", e);

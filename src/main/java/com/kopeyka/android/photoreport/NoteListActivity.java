@@ -4,6 +4,7 @@ package com.kopeyka.android.photoreport;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -24,7 +25,6 @@ public class NoteListActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-
 
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){

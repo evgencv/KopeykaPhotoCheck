@@ -99,7 +99,6 @@ public class NoteFragment extends Fragment   {
     }
 
 
-
     @TargetApi(11)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -150,7 +149,6 @@ public class NoteFragment extends Fragment   {
         }
         return selectionHandled;
     }
-
 
 
     @Override

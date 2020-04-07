@@ -39,18 +39,20 @@ public class NoteListActivity extends SingleFragmentActivity {
             ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.INTERNET}, 0);
         }
 
-
+      
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String userName = prefs.getString("userName", "notSelected");
+        Toast.makeText(this, userName, Toast.LENGTH_SHORT).show();
+        if (userName.toString().equals("notSelected".toString())){
+                Intent i = new Intent(this, PrefActivity.class);
+                startActivity(i);
+        }
 
 
         return new NoteListFragment();
     }
 
 
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuItem mi = menu.add(0, 1, 0, "Preferences");
-//        mi.setIntent(new Intent(this, PrefActivity.class));
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,7 +64,7 @@ public class NoteListActivity extends SingleFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
 
         Intent i = new Intent(this, PrefActivity.class);
 

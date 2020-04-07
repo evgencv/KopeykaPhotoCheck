@@ -34,13 +34,10 @@ public class Photo {
         return mFileName;
     }
 
-    public void deleteFiles() {
-        File file = new File(this.mFileName);
-        boolean deleted = file.delete();
-        if (deleted){
-            Toast.makeText(App.getContext(), "файл удален "+this.mFileName, Toast.LENGTH_SHORT).show();
-      }
-
-
+    public boolean deleteFiles(String path) {
+        File file = new File(path);
+//        boolean deleted = file.delete();
+//        return deleted;
+        return true;
     }
 }

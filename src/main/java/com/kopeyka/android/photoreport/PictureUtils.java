@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Display;
 
 import android.widget.ImageView;
@@ -80,6 +81,7 @@ public class PictureUtils {
         String base64 = "";
         try {
             File file = new File(path);
+            Log.d("File","ok "+path);
             byte[] buffer = new byte[(int) file.length() + 100];
             @SuppressWarnings("resource")
             int length = new FileInputStream(file).read(buffer);

@@ -122,8 +122,10 @@ public class NoteFragment extends Fragment   {
                         if (response.code() == 200) {
                             Toast.makeText(NoteFragment.super.requireContext(), "Фотоотчет отправлен успешно", Toast.LENGTH_SHORT).show();
                             mNote.setComplete(true);
+                            getActivity().onBackPressed();
 
-                            } else {
+
+                        } else {
                             Toast.makeText(NoteFragment.super.requireContext(), "Нет связи с офисом попробуйте позже", Toast.LENGTH_SHORT).show();
 
                         }
@@ -170,7 +172,7 @@ public class NoteFragment extends Fragment   {
           View view = inflater.inflate(R.layout.fragment_note,
                 parent,
                 false);
-        setHasOptionsMenu(true);
+          setHasOptionsMenu(true);
 //
 //        mTitle = (TextView) view.findViewById(R.id.noteTitleText);
 //        mTitle.setText(mNote.getTitle());
@@ -268,32 +270,37 @@ public class NoteFragment extends Fragment   {
                     }
                 });
 
-//
+
         mPhotoButton = (ImageButton) view.findViewById(R.id.note_imageButton);
+
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PackageManager pm = getActivity().getPackageManager();
 
+
+                PackageManager pm = getActivity().getPackageManager();
                 boolean hasCamera =
                         pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
                                 pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
                                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
                                         Camera.getNumberOfCameras() > 0);
-
                 if (hasCamera) {
                     Intent intent = new Intent(getActivity(),
                             NoteCameraActivity.class);
                     startActivityForResult(intent, REQUEST_PHOTO);
-
                 } else {
-                    Toast.makeText(getActivity(),
-                            getResources()
-                                    .getString(R.string.error_no_camera),
+                    Toast.makeText(getActivity(),getResources().getString(R.string.error_no_camera),
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+
+        if (mNote.isComplete()) {
+            mPhotoButton.setVisibility(View.GONE);
+        }
+
+
 
 
 
@@ -345,10 +352,11 @@ public class NoteFragment extends Fragment   {
                 mPhotos = mNote.getPhotoArray();
                 ArrayList<Photo> tempList = new ArrayList<>();
                 tempList.add(mPhotos.get(position));
-                mNote.delPhotos(tempList);
+                mNote.dellPhotos(tempList);
                 tempList.clear();
                 mPhotos = mNote.getPhotoArray();
                 adapter.notifyDataSetChanged();
+
                 selectionHandled = true;
                 break;
             default:
@@ -411,8 +419,9 @@ public class NoteFragment extends Fragment   {
     public void onStart() {
         super.onStart();
         showPhoto();
-
     }
+
+
 
     @Override
     public void onStop() {

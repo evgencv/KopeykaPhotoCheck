@@ -16,7 +16,9 @@
     <string name="note_pause">Pause</string>
     <string name="note_record">Record</string>
     <string name="error_no_mic">No mic found</string>
-    <string name="error_no_camera">No camera found</string>
+    <string name="error_no_camera">У вас нет камеры(</string>
+    <string name="report_has_already_been_sent">Этот отчет уже отправлен</string>
+
     <string name="error_saving">Error while saving</string>
     <string name="new_note">Новый фотоотчет</string>
     <string name="downLoad_note">Обновить</string>

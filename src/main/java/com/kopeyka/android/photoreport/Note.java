@@ -187,10 +187,18 @@ public class Note {
 
     }
 
-    public void delPhotos(ArrayList<Photo> photoList) {
+    public void dellPhotos(ArrayList<Photo> photoList) {
         mPhotoArray.removeAll(photoList);
         for (Photo photo : photoList) {
-            photo.deleteFiles();
+
+            String path = App.getContext().getFileStreamPath(photo.getFileName()).getPath();
+            Log.d("File","Fail "+path);
+            boolean deleted = photo.deleteFiles(path);
+            if (deleted){
+                Toast.makeText(App.getContext(), "deleted "+path,Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(App.getContext(),"fail "+path,Toast.LENGTH_LONG).show();
+            }
         }
 
 

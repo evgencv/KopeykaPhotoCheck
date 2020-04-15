@@ -6,16 +6,21 @@
 <!--   <style name="AppTheme" parent="android:Theme.Material.Light">-->
         <!-- Customize your theme here. -->
 
-       <item name="android:colorPrimary">#1976d2</item>
+        <item name="android:colorPrimary">#1976d2</item>
         <item name="android:colorPrimaryDark">#004ba0</item>
         <item name="android:colorAccent">#63a4ff</item>
-    <item name="android:colorBackground">#ffffff</item>
+        <item name="android:colorBackground">#ffffff</item>
         <item name="android:colorActivatedHighlight">#ffffff</item>
         <item name="android:color">#ffffff</item>
 
+
     </style>
 
-<!--    <color name="primaryColor">#c1185b</color>-->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <color name="colorBackgroundSplash">#63a4ff</color>
 <!--    <color name="primaryLightColor">#f95688</color>-->
 <!--    <color name="primaryDarkColor">#8b0032</color>-->
 <!--    <color name="primaryTextColor">#ffffff</color>-->

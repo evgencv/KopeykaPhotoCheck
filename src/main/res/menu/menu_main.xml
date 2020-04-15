@@ -5,4 +5,8 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="Настройка программы"
          />
+    <item android:id="@+id/menu_item_About_the_program"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Инструкция"
+        />
 </menu>

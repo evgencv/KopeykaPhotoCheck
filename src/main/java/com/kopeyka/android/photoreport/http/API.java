@@ -18,4 +18,6 @@ public interface API {
     @POST("/bpm-connector/hs/PhotoReport/getDocument")
     Call<DocRequest> postJson(@Body DocRequest body);
 
+    @POST("/bpm-connector/hs/PhotoReport/getDocument")
+    Call<DocRequestN> postJsonN(@Body DocRequestN body);
 }

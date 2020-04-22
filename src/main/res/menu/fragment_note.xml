@@ -3,7 +3,10 @@
     <item
         android:id="@+id/menu_item_upload_note"
         android:icon="@drawable/baseline_cloud_upload_black_18"
-        android:title="Отправить отчет"
+        android:title="@string/SendNotes"
         app:showAsAction="ifRoom|withText" />
+
+
+
 </menu>
 

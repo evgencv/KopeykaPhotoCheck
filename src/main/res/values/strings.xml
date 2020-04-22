@@ -40,5 +40,6 @@
     <string name="Preference_ShopTitle">Магазин</string>
     <string name="note_list_titleTitle">Название задания</string>
     <string name="note_list_titleDescr">Номер документа</string>
+    <string name="SendNotes">Отправить отчет</string>
 
 </resources>

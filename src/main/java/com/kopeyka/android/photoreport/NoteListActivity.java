@@ -55,7 +55,6 @@ public class NoteListActivity extends SingleFragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -68,12 +67,9 @@ public class NoteListActivity extends SingleFragmentActivity {
 
 
         switch (item.getItemId()) {
-            case R.id.menu_item_new_thingy:
+            case R.id.menu_item_show_preference:
                 Intent i = new Intent(this, PrefActivity.class);
                 startActivity(i);
-            case R.id.menu_item_About_the_program:
-                Intent i_about = new Intent(this,AboutActivity.class);
-                startActivity(i_about);
             default:
               break;
         }

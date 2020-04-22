@@ -170,13 +170,10 @@ public class NoteListFragment extends ListFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_note_list, menu);
 
-//        MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
-//        if (mSubtitleVisible && showSubtitle != null) {
-//            showSubtitle.setTitle(R.string.hide_subtitle);
-//        }
+        inflater.inflate(R.menu.fragment_note_list, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override

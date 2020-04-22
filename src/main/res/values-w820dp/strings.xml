@@ -4,4 +4,5 @@
     <string name="iconcameras">iconCameras</string>
     <string name="note_list_titleTitle">Название задания</string>
     <string name="note_list_titleDescr">Dummy note date</string>
+    <string name="SendNotes">Отправить отчет</string>
 </resources>

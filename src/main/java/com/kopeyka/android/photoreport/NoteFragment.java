@@ -2,6 +2,7 @@ package com.kopeyka.android.photoreport;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,8 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -30,8 +34,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.kopeyka.android.photoreport.http.API;
 import com.kopeyka.android.photoreport.http.APIClient;
 import com.kopeyka.android.photoreport.http.DocRequest;
+import com.kopeyka.android.photoreport.http.DocRequestN;
 import com.kopeyka.android.photoreport.http.TaskResponse;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,12 +47,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NoteFragment extends Fragment   {
+public class NoteFragment extends Fragment {
 
     public Note mNote;
     public PhotoAdapter adapter;
-
-
     private EditText mTitleField;
     private EditText mContentField;
     private EditText mDocNoFiled;
@@ -57,47 +61,29 @@ public class NoteFragment extends Fragment   {
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private ArrayList<Photo> mPhotos;
-
-    private static final String TAG = "NoteFragment";
     public static final String EXTRA_NOTE_ID = "com.android.notes.note_id";
     private static final String DIALOG_IMAGE = "image";
     private static final String DIALOG_DATE = "date";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_PHOTO = 1;
+    final int STATUS_NONE_LINK = 999;
+    final int STATUS_ERROR = 1000;
+    final int STATUS_COMPETE = 1001;
+    final int STATUS_SENDING = 1002;
+    final String D_TAG_SENDING = "SendingFromRetrofit";
 
-    public static NoteFragment newInstance(UUID noteId) {
-        // Attaching arguments to a fragment must be done after the fragment
-        // is created but before it is added to an activity.
-        // This function uses the standard convention, call this function
-        // instead of the constructor directly.
-        // TODO: Should the constructor be marked as private?
-        Bundle args = new Bundle();
-        args.putSerializable(EXTRA_NOTE_ID, noteId);
-
-        NoteFragment fragment = new NoteFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    private void setFormattedDateButton(FragmentActivity activity) {
-        if (activity != null) {
-            Date date = mNote.getDate();
-            DateFormat dateFormat = android.text.format.DateFormat
-                    .getDateFormat(activity.getApplicationContext());
-            DateFormat timeFormat = android.text.format.DateFormat
-                    .getTimeFormat(activity.getApplicationContext());
-            mDateButton.setText(dateFormat.format(date) +
-                    " " +
-                    timeFormat.format(date));
-        }
-    }
+    Handler h;
+    ProgressDialog pd;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_note, menu);
-    }
 
+        if (!mNote.isComplete()){
+            inflater.inflate(R.menu.fragment_note, menu);
+            super.onCreateOptionsMenu(menu, inflater);
+        }
+
+    }
 
     @TargetApi(11)
     @Override
@@ -105,56 +91,102 @@ public class NoteFragment extends Fragment   {
         boolean selectionHandled;
         API apiboss;
 
+
         switch (item.getItemId()) {
-            case R.id.menu_item_download_note:
-                if (mNote.isComplete()){
+//            case R.id.menu_item_upload_note_new:
+//                if (mNote.isComplete()) {
+//                    Toast.makeText(NoteFragment.super.requireContext(), "Отчет уже отправлен ранее", Toast.LENGTH_SHORT).show();
+//                    //selectionHandled = super.onOptionsItemSelected(item);
+//                    //break;
+//                }
+//                item.setEnabled(false);
+//                apiboss = APIClient.putDoc().create(API.class);
+//                Call<DocRequest> call = apiboss.postJson(new DocRequest(mNote, this));
+//                call.enqueue(new Callback<DocRequest>() {
+//                    @Override
+//                    public void onResponse(Call<DocRequest> call, Response<DocRequest> response) {
+//                        if (response.code() == 200) {
+//                            h.sendEmptyMessage(STATUS_COMPETE);
+//
+//                        } else {
+//                            h.sendEmptyMessage(STATUS_NONE_LINK);
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<DocRequest> call, Throwable t) {
+//                        h.sendEmptyMessage(STATUS_NONE_LINK);
+//
+//                    }
+//                });
+//                selectionHandled = super.onOptionsItemSelected(item);
+//                item.setEnabled(true);
+//                break;
+//
+
+            case R.id.menu_item_upload_note:
+                if (mNote.isComplete()) {
                     Toast.makeText(NoteFragment.super.requireContext(), "Отчет уже отправлен ранее", Toast.LENGTH_SHORT).show();
                     selectionHandled = super.onOptionsItemSelected(item);
-                    break;
+                    //break;
                 }
-                apiboss = APIClient.putDoc().create(API.class);
-                Call<DocRequest> call = apiboss.postJson(new DocRequest(mNote,this));
-                call.enqueue(new Callback<DocRequest>(){
-                    @Override
-                    public void onResponse(Call<DocRequest> call, Response<DocRequest> response) {
 
-                        if (response.code() == 200) {
-                            Toast.makeText(NoteFragment.super.requireContext(), "Фотоотчет отправлен успешно", Toast.LENGTH_SHORT).show();
-                            mNote.setComplete(true);
-                            getActivity().onBackPressed();
+                pd = new ProgressDialog(getActivity());
+                pd.setTitle("Отправка отчета: ");
+                pd.setMessage(mNote.getTitle());
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setIndeterminate(false);
 
 
-                        } else {
-                            Toast.makeText(NoteFragment.super.requireContext(), "Нет связи с офисом попробуйте позже", Toast.LENGTH_SHORT).show();
-
-                        }
-                     }
-
-                    @Override
-                    public void onFailure(Call<DocRequest> call, Throwable t) {
-                        Toast.makeText(NoteFragment.super.requireContext(), "Нет связи с офисом попробуйте позже", Toast.LENGTH_SHORT).show();
-                    }
-
-
-
-                });
-
-
+                SendingMsg runnable = new SendingMsg(mNote,this);
+                new Thread(runnable).start();
 
                 selectionHandled = super.onOptionsItemSelected(item);
                 break;
             default:
                 selectionHandled = super.onOptionsItemSelected(item);
                 break;
+
+
         }
         return selectionHandled;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        h = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case STATUS_NONE_LINK:
+                        Toast.makeText(getContext(), "Нет связи с офисом попробуйте позже", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        break;
+                    case STATUS_ERROR:
+                        Toast.makeText(getContext(), "Проверьте Ваше интерет соединение", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        break;
+                    case STATUS_COMPETE:
+                        Toast.makeText(getContext(), "Фотоотчет отправлен успешно", Toast.LENGTH_SHORT).show();
+                        mNote.setComplete(true);
+                        pd.dismiss();
+                        getActivity().onBackPressed();
+                        break;
+                    case STATUS_SENDING:
+                        if(!pd.isShowing()){
+                            pd.show();
+                        }
+                        pd.setMax(msg.arg2);
+                        pd.setProgress(msg.arg1);
+                        //Toast.makeText(NoteFragment.super.requireContext(), "Отправка фото №"+ msg.arg1+" из "+ msg.arg2 , Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+
+
         UUID noteId = (UUID) getArguments().getSerializable(EXTRA_NOTE_ID);
         mNote = Notebook.getInstance(getActivity()).getNote(noteId);
 
@@ -162,30 +194,14 @@ public class NoteFragment extends Fragment   {
 
     @TargetApi(11)
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                            ViewGroup parent,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,ViewGroup parent,Bundle savedInstanceState) {
 
 
-          View view = inflater.inflate(R.layout.fragment_note,
-                parent,
-                false);
-          setHasOptionsMenu(true);
-//
-//        mTitle = (TextView) view.findViewById(R.id.noteTitleText);
-//        mTitle.setText(mNote.getTitle());
-//
-//
-//        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
-//        String strDt = simpleDate.format(mNote.getDate());
-//
-//        mDate = (TextView) view.findViewById(R.id.noteDateText);
-//        mDate.setText(strDt);
-//        mDate.setGravity(1);
+        View view = inflater.inflate(R.layout.fragment_note,parent,false);
+        setHasOptionsMenu(true);
 
         mDocNoFiled = (EditText) view.findViewById(R.id.note_docNo);
         mDocNoFiled.setText(mNote.getDocNo());
-
 
         mTitleField = (EditText) view.findViewById(R.id.note_title);
         mTitleField.setText(mNote.getTitle());
@@ -255,8 +271,6 @@ public class NoteFragment extends Fragment   {
         });
 
 
-
-
         mCompleteCheckBox = (CheckBox) view.findViewById(R.id.note_complete);
         mCompleteCheckBox.setChecked(mNote.isComplete());
         mCompleteCheckBox.setOnCheckedChangeListener(
@@ -270,12 +284,9 @@ public class NoteFragment extends Fragment   {
 
 
         mPhotoButton = (ImageButton) view.findViewById(R.id.note_imageButton);
-
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 PackageManager pm = getActivity().getPackageManager();
                 boolean hasCamera =
                         pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
@@ -283,12 +294,10 @@ public class NoteFragment extends Fragment   {
                                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
                                         Camera.getNumberOfCameras() > 0);
                 if (hasCamera) {
-                    Intent intent = new Intent(getActivity(),
-                            NoteCameraActivity.class);
+                    Intent intent = new Intent(getActivity(),NoteCameraActivity.class);
                     startActivityForResult(intent, REQUEST_PHOTO);
                 } else {
-                    Toast.makeText(getActivity(),getResources().getString(R.string.error_no_camera),
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_no_camera),Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -298,16 +307,11 @@ public class NoteFragment extends Fragment   {
             mPhotoButton.setVisibility(View.GONE);
         }
 
-
-
-
-
         ListView listView = (ListView) view.findViewById(R.id.note_listView);
         mPhotos = mNote.getPhotoArray();
         adapter = new PhotoAdapter(mPhotos);
         listView.setAdapter(adapter);
         registerForContextMenu(listView);
-
 
         mPhotoView = (ImageView) view.findViewById(R.id.note_imageView);
         mPhotoView.setOnClickListener(new View.OnClickListener() {
@@ -330,11 +334,8 @@ public class NoteFragment extends Fragment   {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu,
-                                    View view,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        getActivity().getMenuInflater().inflate(R.menu.note_list_item_context,
-                menu);
+    public void onCreateContextMenu(ContextMenu menu,View view,ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.note_list_item_context, menu);
     }
 
     @Override
@@ -342,7 +343,7 @@ public class NoteFragment extends Fragment   {
         boolean selectionHandled;
 
         AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int position = info.position;
 
         switch (item.getItemId()) {
@@ -419,12 +420,38 @@ public class NoteFragment extends Fragment   {
         showPhoto();
     }
 
-
-
     @Override
     public void onStop() {
         super.onStop();
         PictureUtils.cleanImageView(mPhotoView);
+    }
+
+
+    public static NoteFragment newInstance(UUID noteId) {
+        // Attaching arguments to a fragment must be done after the fragment
+        // is created but before it is added to an activity.
+        // This function uses the standard convention, call this function
+        // instead of the constructor directly.
+        // TODO: Should the constructor be marked as private?
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_NOTE_ID, noteId);
+
+        NoteFragment fragment = new NoteFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private void setFormattedDateButton(FragmentActivity activity) {
+        if (activity != null) {
+            Date date = mNote.getDate();
+            DateFormat dateFormat = android.text.format.DateFormat
+                    .getDateFormat(activity.getApplicationContext());
+            DateFormat timeFormat = android.text.format.DateFormat
+                    .getTimeFormat(activity.getApplicationContext());
+            mDateButton.setText(dateFormat.format(date) +
+                    " " +
+                    timeFormat.format(date));
+        }
     }
 
     private void showPhoto() {
@@ -440,37 +467,89 @@ public class NoteFragment extends Fragment   {
         mPhotoView.setImageDrawable(bitmapDrawable);
     }
 
+
+
+
+
     private class PhotoAdapter extends ArrayAdapter<Photo> {
-       public PhotoAdapter(ArrayList<Photo> photo) {
-           super(getActivity(), 0, photo);
-       }
-       @Override
-       public View getView(int position, View convertView, ViewGroup parent) {
-           if (convertView == null) {
-               convertView = getActivity().getLayoutInflater()
-                       .inflate(R.layout.list_item_photo, null);
-           }
-           Photo photo = getItem(position);
-           BitmapDrawable bitmapDrawable = null;
-           if (photo != null) {
-               String path = getActivity()
-                       .getFileStreamPath(photo.getFileName()).getAbsolutePath();
-               bitmapDrawable = PictureUtils.getScaledDrawable(getActivity(),
-                       path);
-               ImageView photoItem = (ImageView) convertView.findViewById(R.id.list_item_photo_Image);
-               photoItem.setImageDrawable(bitmapDrawable);
+        public PhotoAdapter(ArrayList<Photo> photo) {
+            super(getActivity(), 0, photo);
+        }
 
-               TextView TitleIMG = (TextView) convertView.findViewById(R.id.list_item_photo_Image_text);
-               TitleIMG.setText(String.valueOf(position+1));
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater()
+                        .inflate(R.layout.list_item_photo, null);
+            }
+            Photo photo = getItem(position);
+            BitmapDrawable bitmapDrawable = null;
+            if (photo != null) {
+                String path = getActivity()
+                        .getFileStreamPath(photo.getFileName()).getAbsolutePath();
+                bitmapDrawable = PictureUtils.getScaledDrawable(getActivity(),
+                        path);
+                ImageView photoItem = (ImageView) convertView.findViewById(R.id.list_item_photo_Image);
+                photoItem.setImageDrawable(bitmapDrawable);
 
-           }
+                TextView TitleIMG = (TextView) convertView.findViewById(R.id.list_item_photo_Image_text);
+                TitleIMG.setText(String.valueOf(position + 1));
 
-           return convertView;
-       }
+            }
+
+            return convertView;
+        }
 
 
     }
+
+    public class SendingMsg implements Runnable {
+        private Note mNote;
+        Fragment fragment;
+
+        public SendingMsg(Note mNote,Fragment fragment){
+            this.fragment = fragment;
+            this.mNote = mNote;
+        }
+
+        public void run() {
+            API apiboss;
+
+            boolean SuccessfulSending;
+            apiboss = APIClient.putDoc().create(API.class);
+
+            Integer countPhoto = mNote.getPhotoCount() - 1;
+            for (int i = 0; i < countPhoto; i++) {
+                h.sendMessage(h.obtainMessage(STATUS_SENDING, i+1, countPhoto));
+                Call<DocRequestN> callN = apiboss.postJsonN(new DocRequestN(mNote,fragment, i, countPhoto));
+                Log.d(D_TAG_SENDING, "create Call object - successful");
+
+                try {
+                    Response<DocRequestN> response = callN.execute();
+                    SuccessfulSending = response.isSuccessful();
+                    if (SuccessfulSending){
+                        Log.d(D_TAG_SENDING, "successful "+(i+1)+"  "+countPhoto);
+                    }else{
+                        Log.d(D_TAG_SENDING, "fail sending");
+
+                    }
+
+                } catch (IOException e) {
+                    h.sendMessage(h.obtainMessage(STATUS_ERROR, 0, 0));
+                    e.printStackTrace();
+                    break;
+                }
+            }
+            h.sendMessage(h.obtainMessage(STATUS_COMPETE, 0, 0));
+
+
+        }
+    }
+
+
 }
+
+
 
 
 

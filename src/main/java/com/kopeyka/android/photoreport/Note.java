@@ -181,6 +181,10 @@ public class Note {
         return mPhotoArray;
     }
 
+    public Integer getPhotoCount(){
+        return mPhotoArray.size();
+    }
+
     public void setPhoto(Photo photo) {
         mPhoto = photo;
         mPhotoArray.add(photo);

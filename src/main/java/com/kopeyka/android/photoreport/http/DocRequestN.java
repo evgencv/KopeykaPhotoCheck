@@ -24,10 +24,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class DocRequest {
+public class DocRequestN {
 
     @SerializedName("UUID")
     final UUID uuid;
+
+
+    @SerializedName("PhotoN")
+    final Integer PhotoN;
+
+    @SerializedName("PhotoCount")
+    final Integer PhotoCount;
+
+
 
     @SerializedName("Title")
     final String Title;
@@ -66,7 +75,7 @@ public class DocRequest {
     public String userTelephone;
 
     @SerializedName("PhotoList")
-    public List<DocRequest.PhotoJson> PhotoList = new ArrayList();
+    public List<DocRequestN.PhotoJson> PhotoList = new ArrayList();
 
     public class PhotoJson {
         @SerializedName("PhotoBASE64")
@@ -78,8 +87,10 @@ public class DocRequest {
         }
     }
 
-    
-    public DocRequest(Note note, Fragment fragment) {
+
+
+
+    public DocRequestN(Note note, Fragment fragment,Integer PhotoN,Integer PhotoCount ) {
         SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
         this.isComplete = Boolean.toString(note.isComplete());
         this.createDate = note.getDate();
@@ -92,23 +103,31 @@ public class DocRequest {
         this.userSurname = prefs.getString("userSurname", "notSelected");
         this.userName = prefs.getString("userName", "notSelected");
         this.userTelephone = prefs.getString("userTelephone", "notSelected");
+        this.PhotoN = PhotoN;
+        this.PhotoCount = PhotoCount;
 
         List photoArr = note.getPhotoArray();
-        for (int i = 0; i < photoArr.size(); i++) {
 
-            Photo photoImg = (Photo) photoArr.get(i);
-            if (photoImg != null) {
-                String path = fragment.getActivity().getFileStreamPath(photoImg.getFileName()).getAbsolutePath();
-                String base64Img = PictureUtils.getBase64FromPath(path);
-                PhotoJson PhotoItem = new PhotoJson(base64Img);
-                //PhotoJson PhotoItem = new PhotoJson("8769696");
-                this.PhotoList.add(PhotoItem);
-            }
+
+        Photo photoImg = (Photo) photoArr.get(PhotoN);
+        if (photoImg != null) {
+            String path = fragment.getActivity().getFileStreamPath(photoImg.getFileName()).getAbsolutePath();
+            String base64Img = PictureUtils.getBase64FromPath(path);
+            PhotoJson PhotoItem = new PhotoJson(base64Img);
+            //PhotoJson PhotoItem = new PhotoJson("8769696");
+            this.PhotoList.add(PhotoItem);
+
         }
 
     }
 
+    public Integer getPhotoN() {
+        return PhotoN+1;
+    }
 
+    public Integer getPhotoCount() {
+        return PhotoCount;
+    }
 
     public String getResponseCode() {
         return ResponseCode;

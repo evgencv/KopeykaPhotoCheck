@@ -28,14 +28,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 
 
 import com.kopeyka.android.photoreport.http.API;
 import com.kopeyka.android.photoreport.http.APIClient;
-import com.kopeyka.android.photoreport.http.DocRequest;
 import com.kopeyka.android.photoreport.http.DocRequestN;
-import com.kopeyka.android.photoreport.http.TaskResponse;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -44,7 +42,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NoteFragment extends Fragment {
@@ -180,7 +177,6 @@ public class NoteFragment extends Fragment {
                         }
                         pd.setMax(msg.arg2);
                         pd.setProgress(msg.arg1);
-                        //Toast.makeText(NoteFragment.super.requireContext(), "Отправка фото №"+ msg.arg1+" из "+ msg.arg2 , Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -514,13 +510,14 @@ public class NoteFragment extends Fragment {
 
         public void run() {
             API apiboss;
+            boolean sendingIsComplete = true;
 
             boolean SuccessfulSending;
             apiboss = APIClient.putDoc().create(API.class);
 
             Integer countPhoto = mNote.getPhotoCount() - 1;
             for (int i = 0; i < countPhoto; i++) {
-                h.sendMessage(h.obtainMessage(STATUS_SENDING, i+1, countPhoto));
+                h.sendMessage(h.obtainMessage(STATUS_SENDING, i+1, countPhoto+1));
                 Call<DocRequestN> callN = apiboss.postJsonN(new DocRequestN(mNote,fragment, i, countPhoto));
                 Log.d(D_TAG_SENDING, "create Call object - successful");
 
@@ -531,16 +528,20 @@ public class NoteFragment extends Fragment {
                         Log.d(D_TAG_SENDING, "successful "+(i+1)+"  "+countPhoto);
                     }else{
                         Log.d(D_TAG_SENDING, "fail sending");
-
+                        sendingIsComplete = false;
                     }
 
                 } catch (IOException e) {
                     h.sendMessage(h.obtainMessage(STATUS_ERROR, 0, 0));
                     e.printStackTrace();
+                    sendingIsComplete = false;
                     break;
                 }
             }
-            h.sendMessage(h.obtainMessage(STATUS_COMPETE, 0, 0));
+            if (sendingIsComplete){
+                h.sendMessage(h.obtainMessage(STATUS_COMPETE,0,0));
+            }
+
 
 
         }

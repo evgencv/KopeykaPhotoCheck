@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/menu_item_show_preference"
-        android:icon="@drawable/baseline_folder_shared_black_24"
+        android:icon="@drawable/baseline_folder_shared_24"
         android:orderInCategory="@integer/config_navAnimTime"
         android:showAsAction="ifRoom|withText"
         android:title="@string/show_subtitle" />
